@@ -34,12 +34,9 @@ can filter by date and time
 
 #2018 season
 
-last filter will ask about specific shows
+last filter will ask about specific shows should return show with the associated theaters
 
 #Hamilton
 #Book of Mormon
 #etc
 
-then will check other theaters for that show if asked too
-
-#pulls all theaters that has Hamilton playing
