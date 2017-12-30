@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
-require_relative '../lib/seattletheatercontroller'
+require_relative '../config/environment'
 
 SeattleTheaterController.new.call

@@ -1,5 +1,3 @@
-
-require 'pry'
 class SeattleTheaterController
    
    def call
