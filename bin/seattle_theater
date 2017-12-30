@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
-puts "Hamilton"
+require_relative '../lib/seattletheatercontroller'
 
 SeattleTheaterController.new.call

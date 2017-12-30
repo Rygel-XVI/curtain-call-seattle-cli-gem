@@ -10,7 +10,7 @@ https://www.villagetheatre.org/   everett and issaquah locations
 can filter what's playing by
 musicals
 plays
-childrens
+kids
 
 can filter by theater
 
