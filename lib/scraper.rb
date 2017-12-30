@@ -18,6 +18,20 @@ class Scraper
 
     def self.scrape_the_5th(url)
         doc = Nokogiri::HTML(open(url))
+        a = doc.css("td .zero, td .guts")
+        a.each do |i|
+            #:name => i.css("div h2 a").text
+            #:dates => i.css("div .date").text
+            #:description =>  i.css("div p")[1].text
+            #all theaters are the 5th Avenue
+           binding.pry 
+        end
         binding.pry
     end
+    
+    def scraped_shows
+        
+    end
+    
+    
 end
