@@ -14,29 +14,64 @@ class Scraper
   
 #   1. take each website w/ nokogiri
 #   2. parse it into arrays to make objects out of that the cli can return values off of
-#   3. objects will be theater, show, genre
+#   3. objects will be theater, show
 
 
 # Goes through the website and creates the song
+##change this to a hash and dynamically add w/ mass assignment later
     def self.scrape_the_5th(url)
         doc = Nokogiri::HTML(open(url))
-        a = doc.css("td .zero, td .guts")
-        a.each do |i|
+        a = doc.css("td .zero, td .guts div")
+        
+        a.map do |i|
+            begin
+            ## if i.text isn't words then there is no show there
+            next if i.text !~ /\w/
+            
             show = Show.new
-            show.name = i.css("div h2 a").text
-            show.dates = i.css("div .date").text
+            show.name = i.css("h2 a").text
+            show.dates = i.css(".date").text
             show.theater = "The 5th Avenue Theater"
-            desc = i.css("div p")[1].text
+            desc = i.css("p")[1].text
             show.description = desc.gsub /\t/, ''
+            show.save
             
             #:name => i.css("div h2 a").text
             #:dates => i.css("div .date").text
             #:description =>  i.css("div p")[1].text
             #all theaters are the 5th Avenue
-           binding.pry 
+            rescue
+            binding.pry
+        end
+        end
+        # binding.pry
+
+    end
+    
+# change this later to 'click' on the top link and parses the info in that so it works next year
+    def self.scrape_childrens(url)    
+        doc = Nokogiri::HTML(open(url))
+        a = doc.css("div.content table.pagelist tr td")
+        a.map do |i|
+            binding.pry
+            # :name => i.css("b a").text
+            # :date => i.css("p b")[1].text
+        #     show = Show.new
+        #     show.name = i.css("img").attribute("alt").text
+        #     show.dates = i.css("div .date").text
+        #     show.theater = "The 5th Avenue Theater"
+        #     desc = i.css("div p")[1].text
+        #     show.description = desc.gsub /\t/, ''
+        #     show.save
+            
+        #     #:name => i.css("div h2 a").text
+        #     #:dates => i.css("div .date").text
+        #     #:description =>  i.css("div p")[1].text
+
         end
         binding.pry
     end
+    
     
     def scraped_shows
         

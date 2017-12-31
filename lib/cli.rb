@@ -3,11 +3,12 @@ class SeattleTheaterController
    def call
        #1. scrapes the websites
        #2. make objects from those websites
-       #3. Class show has  :theaters, :genres, :dates  the show cannot change these
+       #3. Class show has  :theaters, :dates  the show cannot change these
        #4. Class theater has :shows, :dates, :location
        #5. 
     #   binding.pry
-       Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
+      Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
+      Scraper.scrape_childrens('https://www.sct.org/Shows/2017-2018-Season')
        
       # asks if you would like shows by theater, date/time, genre
       puts "Would you like shows by theater, genre, or date?"
