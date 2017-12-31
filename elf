@@ -1,0 +1,21 @@
+
+[1mFrom:[0m /home/ubuntu/workspace/curtain-call-seattle/lib/scraper.rb @ line 34 Scraper.scrape_the_5th:
+
+    [1;34m21[0m: [32mdef[0m [1;36mself[0m.[1;34mscrape_the_5th[0m(url)
+    [1;34m22[0m:     doc = [1;34;4mNokogiri[0m::HTML(open(url))
+    [1;34m23[0m:     a = doc.css([31m[1;31m"[0m[31mtd .zero, td .guts[1;31m"[0m[31m[0m)
+    [1;34m24[0m:     a.each [32mdo[0m |i|
+    [1;34m25[0m:         show = [1;34;4mShow[0m.new
+    [1;34m26[0m:         show.name = i.css([31m[1;31m"[0m[31mdiv h2 a[1;31m"[0m[31m[0m).text
+    [1;34m27[0m:         show.dates = i.css([31m[1;31m"[0m[31mdiv .date[1;31m"[0m[31m[0m).text
+    [1;34m28[0m:         show.description = i.css([31m[1;31m"[0m[31mdiv p[1;31m"[0m[31m[0m)[[1;34m1[0m].text
+    [1;34m29[0m:         show.theater = [31m[1;31m"[0m[31mThe 5th Avenue Theater[1;31m"[0m[31m[0m
+    [1;34m30[0m:         [1;34m#:name => i.css("div h2 a").text[0m
+    [1;34m31[0m:         [1;34m#:dates => i.css("div .date").text[0m
+    [1;34m32[0m:         [1;34m#:description =>  i.css("div p")[1].text[0m
+    [1;34m33[0m:         [1;34m#all theaters are the 5th Avenue[0m
+ => [1;34m34[0m:        binding.pry 
+    [1;34m35[0m:     [32mend[0m
+    [1;34m36[0m:     binding.pry
+    [1;34m37[0m: [32mend[0m
+

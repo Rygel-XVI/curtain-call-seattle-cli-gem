@@ -1,0 +1,11 @@
+class Theater
+
+    attr_accessor :location, :shows
+    
+    @@all = []
+    
+    def save
+      @@all << self 
+    end
+
+end
