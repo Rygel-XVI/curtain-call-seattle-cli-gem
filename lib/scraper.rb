@@ -53,23 +53,37 @@ class Scraper
         doc = Nokogiri::HTML(open(url))
         a = doc.css("div.content table.pagelist tr td")
         a.map do |i|
-            binding.pry
+            # binding.pry
+
             # :name => i.css("b a").text
             # :date => i.css("p b")[1].text
-        #     show = Show.new
-        #     show.name = i.css("img").attribute("alt").text
-        #     show.dates = i.css("div .date").text
-        #     show.theater = "The 5th Avenue Theater"
-        #     desc = i.css("div p")[1].text
-        #     show.description = desc.gsub /\t/, ''
-        #     show.save
             
-        #     #:name => i.css("div h2 a").text
-        #     #:dates => i.css("div .date").text
-        #     #:description =>  i.css("div p")[1].text
+            # b = i.css("p").text
+            # b.gsub!(/\t|\n|\r/, "")
+            # c = b.split(/\s{2,}/)
+            # :description => c[1]
+            begin
+            
+            show = Show.new
+            
+            show.name = i.css("b a").text
+            show.dates = i.css("p b")[1].text
+            
+            b = i.css("p").text
+            b.gsub!(/\t|\n|\r/, "")
+            c = b.split(/\s{2,}/)
+            show.description = c[1]
+            
+            show.theater = "Seattle Children's Theater"
+            
+            show.save
+            
+            rescue
+            binding.pry
+        end
 
         end
-        binding.pry
+        # binding.pry
     end
     
     
