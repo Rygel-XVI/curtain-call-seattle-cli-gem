@@ -1,10 +1,10 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "current_seattle_theater/version"
+require "curtain-call-seattle/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "current_seattle_theater"
+  spec.name          = "curtain-call-seattle"
   spec.version       = CurrentSeattleTheater::VERSION
   spec.authors       = ["Annette Michaels"]
   spec.email         = ["micha232@umn.edu"]

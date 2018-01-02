@@ -59,7 +59,7 @@ class SeattleTheaterController
       a = Show.all.select {|show| show.theater == x}
       puts "Shows at " + x 
       binding.pry
-      puts a[0].theater.location
+    #   puts a[0].theater.location  ##currently not an object have to refactor to fix this
       puts "\n\n"
       a.each do |i|
           puts i.name.colorize(:light_magenta)  ##red
@@ -78,6 +78,5 @@ class SeattleTheaterController
     def shows_by_genre
         puts "shows_by_genre"
     end
-    
     
 end

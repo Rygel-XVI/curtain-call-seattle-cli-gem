@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    current_seattle_theater (0.1.0)
+    curtain-call-seattle (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -13,7 +13,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.16)
-  current_seattle_theater!
+  curtain-call-seattle!
   rake (~> 10.0)
 
 BUNDLED WITH
