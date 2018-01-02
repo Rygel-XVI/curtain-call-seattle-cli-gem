@@ -20,8 +20,13 @@ class Scraper
 # Goes through the website and creates the song
 ##change this to a hash and dynamically add w/ mass assignment later
     def self.scrape_the_5th(url)
+        # binding.pry
         doc = Nokogiri::HTML(open(url))
         a = doc.css("td .zero, td .guts div")
+        the5th = Theater.new
+        the5th.location = "1308 5th Ave, Seattle, WA 98101"
+        the5th.name = "The 5th Avenue Theater"
+        the5th.save
         
         a.map do |i|
             begin
@@ -31,10 +36,13 @@ class Scraper
             show = Show.new
             show.name = i.css("h2 a").text
             show.dates = i.css(".date").text
-            show.theater = "The 5th Avenue Theater"
+            show.theater = the5th
             desc = i.css("p")[1].text
             show.description = desc.gsub /\t/, ''
             show.save
+            # binding.pry
+            
+            # show.theater.
             
             #:name => i.css("div h2 a").text
             #:dates => i.css("div .date").text
@@ -52,6 +60,12 @@ class Scraper
     def self.scrape_childrens(url)    
         doc = Nokogiri::HTML(open(url))
         a = doc.css("div.content table.pagelist tr td")
+        
+        sct = Theater.new
+        sct.location = "201 Thomas St, Seattle, WA 98109"
+        sct.name = "Seattle Children's Theater"
+        sct.save
+        
         a.map do |i|
             # binding.pry
 
@@ -74,7 +88,7 @@ class Scraper
             c = b.split(/\s{2,}/)
             show.description = c[1]
             
-            show.theater = "Seattle Children's Theater"
+            show.theater = sct
             
             show.save
             

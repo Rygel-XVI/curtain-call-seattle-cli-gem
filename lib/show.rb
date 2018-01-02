@@ -8,6 +8,16 @@ class Show
 # when i initialize i should add it to the theater class if it doesn't exist
 # maybe add a find or create method for theater and song **module**
 
+    # def initialize(show_hash)
+    #     show_hash.each {|key, value| self.send(("#{key}="), value)}
+    #     save
+    # end
+    
+    def theater=(theater)
+       @theater = theater
+       theater.add_show(self)
+    end
+    
     def save
       @@all << self 
     end
@@ -17,14 +27,8 @@ class Show
     end
       
 #   if show is found check that the theater is in it's list of theaters else create new song
-   def find_or_create(show_hash)
-       @@all.each do |show|
-        if show_hash[:name] == show.name
-            find_or_add_theater(show_hash)
-        else
-            Show.new(show_hash)
-        end
-    end
+   def self.exists?(show_name)
+       @@all.detect {|x| x.name == show_name}
    end
    
 #   take in a hash of a show and if the theater is already included in the show's data then ignore else add the theater to the shows theater array and add the show to the theater object

@@ -56,10 +56,11 @@ class SeattleTheaterController
     
     #return shows playing at each theater
     def shows_by_theater(x)
-      a = Show.all.select {|show| show.theater == x}
+      a = Show.all.select {|show| show.theater.name == x}
+      puts "\n\n"
       puts "Shows at " + x 
-      binding.pry
-    #   puts a[0].theater.location  ##currently not an object have to refactor to fix this
+    #   binding.pry
+      puts a[0].theater.location
       puts "\n\n"
       a.each do |i|
           puts i.name.colorize(:light_magenta)  ##red
