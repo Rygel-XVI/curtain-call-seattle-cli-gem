@@ -1,6 +1,6 @@
 # require "curtain-call-seattle/version"
 
-# choose some of these to start  add the rest later
+# choose some of these to start  add the rest later. Find the smaller theaters and add those to the list
 # https://www.5thavenue.org/
 # https://www.seattlerep.org/
 # http://www.acttheatre.org
@@ -36,19 +36,11 @@ class Scraper
             show = Show.new
             show.name = i.css("h2 a").text
             show.dates = i.css(".date").text
+            binding.pry
             show.theater = the5th
-            # desc = i.css("p")[1].text
-            # show.description = desc.gsub /\t/, ''
             show.description = parse_description_5th(i)
             show.save
-            # binding.pry
-            
-            # show.theater.
-            
-            #:name => i.css("div h2 a").text
-            #:dates => i.css("div .date").text
-            #:description =>  i.css("div p")[1].text
-            #all theaters are the 5th Avenue
+
             rescue
             binding.pry
         end
@@ -60,6 +52,18 @@ class Scraper
     def self.parse_description_5th(i)
         desc = i.css("p")[1].text
         desc.gsub! /\t/, ''
+    end
+    
+    def self.create_dates_5th(i)
+                ##parsing time
+        d = i.css(".date").text
+        d = d.split(/\W{2,}/)
+        dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
+        y=dates.map {|x| Date.parse(x)}
+        # y[0].year|mon|day
+        range = (y[0]...y[1])
+        # range.include?(Date.new(2018,1,6)) returns true
+        binding.pry
     end
     
 # change this later to 'click' on the top link and parses the info in that so it works next year
@@ -80,23 +84,8 @@ class Scraper
             show.name = i.css("b a").text
             show.dates = i.css("p b")[1].text
             show.theater = sct
-            
-            # b = i.css("p").text
-            # b.gsub!(/\t|\n|\r/, "")
-            # c = b.split(/\s{2,}/)
-            # show.description = c[1]
             show.description = parse_description_childrens(i)[1]
-  
             show.save
-
-            # :name => i.css("b a").text
-            # :date => i.css("p b")[1].text
-            
-            # b = i.css("p").text
-            # b.gsub!(/\t|\n|\r/, "")
-            # c = b.split(/\s{2,}/)
-            # :description => c[1]
-            
             rescue
             binding.pry
         end

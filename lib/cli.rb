@@ -1,4 +1,5 @@
 require 'colorize'
+require 'time'
 class SeattleTheaterController
    
    def initialize
@@ -7,15 +8,13 @@ class SeattleTheaterController
    end
    
    def call
-    #   binding.pry
        #1. scrapes the websites
        #2. make objects from those websites
        #3. Class show has  :theaters, :dates, :description
        #4. Class theater has :shows, :dates, :location
        #5. 
-    #   binding.pry
        
-      # asks if you would like shows by theater, date/time, genre
+      # asks if you would like shows by theater, date/time
       puts "Would you like shows by theater, date?"
       input = gets.chomp
       #gets input and calls method mased on input
@@ -86,6 +85,9 @@ class SeattleTheaterController
     #return shows playing on a specific date (or maybe in order by soonest)
     def shows_by_date
         puts "shows_by_date"
+        a = Theater.all
+        a = a[0].shows[0]
+        binding.pry
     end
 
 end
