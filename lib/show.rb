@@ -40,6 +40,12 @@ class Show
        
    end
    
+   def get_dates
+      self.dates.map do |i|  
+          binding.pry
+         i 
+      end
+   end
    def self.get_shows_by_name
       @@all.map {|i| i.name} 
    end

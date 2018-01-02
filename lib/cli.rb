@@ -56,7 +56,8 @@ class SeattleTheaterController
     
     #return shows playing at a specific theater
     def shows_by_theater(x)
-        a=Theater.all.detect {|i| i.name = x}
+        a=Theater.all.detect {|i| i.name == x}
+        binding.pry
 
       puts "\n\n"
       puts "Shows at " + x 
@@ -66,7 +67,7 @@ class SeattleTheaterController
       a.shows.each do |i|
         #   binding.pry
           puts i.name.colorize(:light_magenta)  ##red
-          puts i.dates.colorize(:light_red)  ##light_red
+          puts i.dates.first.to_s.colorize(:light_red) + " to " + i.dates.last.to_s.colorize(:light_red) ##light_red
           puts i.description.colorize(:red)
           puts "\n"
       end
@@ -86,8 +87,12 @@ class SeattleTheaterController
     def shows_by_date
         puts "shows_by_date"
         a = Theater.all
-        a = a[0].shows[0]
-        binding.pry
+        a = a[0].shows[0].dates
+        x = a.first.to_s
+        y = a.last.to_s
+        
+        ##collect all shows and sort them by start date or end date
+        # binding.pry
     end
 
 end

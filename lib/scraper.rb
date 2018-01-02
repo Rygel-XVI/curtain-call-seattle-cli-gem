@@ -37,7 +37,7 @@ class Scraper
             show.name = i.css("h2 a").text
             # show.dates = i.css(".date").text
             show.dates = create_dates_5th(i)
-            binding.pry
+            # binding.pry
             show.theater = the5th
             show.description = parse_description_5th(i)
             show.save
@@ -57,7 +57,7 @@ class Scraper
     
     def self.create_dates_5th(i)
                 ##parsing time
-                binding.pry
+                # binding.pry
         d = i.css(".date").text
         d = d.split(/\W{2,}/)
         dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
@@ -89,6 +89,7 @@ class Scraper
             show.theater = sct
             show.description = parse_description_childrens(i)[1]
             show.save
+            # binding.pry
             rescue
             binding.pry
         end
