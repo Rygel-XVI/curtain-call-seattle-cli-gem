@@ -10,7 +10,7 @@ class SeattleTheaterController
     #   binding.pry
        #1. scrapes the websites
        #2. make objects from those websites
-       #3. Class show has  :theaters, :dates  the show cannot change these
+       #3. Class show has  :theaters, :dates, :description
        #4. Class theater has :shows, :dates, :location
        #5. 
     #   binding.pry
@@ -55,23 +55,15 @@ class SeattleTheaterController
       end
     end
     
-    #Theater.all.detect {|i| i.name = "The 5th Avenue Theater"}
-    
-    #return shows playing at each theater
+    #return shows playing at a specific theater
     def shows_by_theater(x)
         a=Theater.all.detect {|i| i.name = x}
-    #   a = Show.all.select {|show| show.theater.name == x}
+
       puts "\n\n"
       puts "Shows at " + x 
       puts a.location
       puts "/n/n"
       
-    #   a.shows.each do |i|
-          
-    #   end
-    #   binding.pry
-    #   puts a[0].theater.location
-    #   puts "\n\n"
       a.shows.each do |i|
         #   binding.pry
           puts i.name.colorize(:light_magenta)  ##red
@@ -79,16 +71,21 @@ class SeattleTheaterController
           puts i.description.colorize(:red)
           puts "\n"
       end
+    #   --------------------------
+    #   old code just in case
+    #   a = Show.all.select {|show| show.theater.name == x}
+    #   a.shows.each do |i|
+          
+    #   end
+    #   binding.pry
+    #   puts a[0].theater.location
+    #   puts "\n\n"
+    # ----------------
     end
     
     #return shows playing on a specific date (or maybe in order by soonest)
     def shows_by_date
         puts "shows_by_date"
     end
-    
-    #return shows by genre (kids, musical, play, classic, monologue, other)
-    def shows_by_genre
-        puts "shows_by_genre"
-    end
-    
+
 end
