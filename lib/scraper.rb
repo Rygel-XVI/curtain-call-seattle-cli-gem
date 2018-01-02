@@ -74,6 +74,20 @@ class Scraper
         
         a.map do |i|
             # binding.pry
+            begin
+            
+            show = Show.new
+            show.name = i.css("b a").text
+            show.dates = i.css("p b")[1].text
+            show.theater = sct
+            
+            # b = i.css("p").text
+            # b.gsub!(/\t|\n|\r/, "")
+            # c = b.split(/\s{2,}/)
+            # show.description = c[1]
+            show.description = parse_description_childrens(i)[1]
+  
+            show.save
 
             # :name => i.css("b a").text
             # :date => i.css("p b")[1].text
@@ -82,21 +96,6 @@ class Scraper
             # b.gsub!(/\t|\n|\r/, "")
             # c = b.split(/\s{2,}/)
             # :description => c[1]
-            begin
-            
-            show = Show.new
-            
-            show.name = i.css("b a").text
-            show.dates = i.css("p b")[1].text
-            
-            b = i.css("p").text
-            b.gsub!(/\t|\n|\r/, "")
-            c = b.split(/\s{2,}/)
-            show.description = c[1]
-            
-            show.theater = sct
-            
-            show.save
             
             rescue
             binding.pry
@@ -104,6 +103,12 @@ class Scraper
 
         end
         # binding.pry
+    end
+    
+    def self.parse_description_childrens(i)
+        i = i.css("p").text
+        i.gsub!(/\t|\n|\r/, "")
+        i.split(/\s{2,}/)
     end
     
     
