@@ -110,15 +110,5 @@ class Scraper
         i.gsub!(/\t|\n|\r/, "")
         i.split(/\s{2,}/)
     end
-    
-    
-    def scraped_shows
-        
-    end
-    
-    def create_shows
-        
-    end
-    
-    
+
 end
