@@ -35,7 +35,8 @@ class Scraper
             
             show = Show.new
             show.name = i.css("h2 a").text
-            show.dates = i.css(".date").text
+            # show.dates = i.css(".date").text
+            show.dates = create_dates_5th(i)
             binding.pry
             show.theater = the5th
             show.description = parse_description_5th(i)
@@ -56,14 +57,16 @@ class Scraper
     
     def self.create_dates_5th(i)
                 ##parsing time
+                binding.pry
         d = i.css(".date").text
         d = d.split(/\W{2,}/)
         dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
         y=dates.map {|x| Date.parse(x)}
         # y[0].year|mon|day
-        range = (y[0]...y[1])
+        # range = (y[0]...y[1])
         # range.include?(Date.new(2018,1,6)) returns true
-        binding.pry
+        # binding.pry
+        (y[0]...y[1])
     end
     
 # change this later to 'click' on the top link and parses the info in that so it works next year
