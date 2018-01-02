@@ -44,6 +44,7 @@ class SeattleTheaterController
       
       case input
       when "1"
+        #   binding.pry
         shows_by_theater("The 5th Avenue Theater")
       when "2"
         shows_by_theater("Seattle Children's Theater")
@@ -54,15 +55,25 @@ class SeattleTheaterController
       end
     end
     
+    #Theater.all.detect {|i| i.name = "The 5th Avenue Theater"}
+    
     #return shows playing at each theater
     def shows_by_theater(x)
-      a = Show.all.select {|show| show.theater.name == x}
+        a=Theater.all.detect {|i| i.name = x}
+    #   a = Show.all.select {|show| show.theater.name == x}
       puts "\n\n"
       puts "Shows at " + x 
+      puts a.location
+      puts "/n/n"
+      
+    #   a.shows.each do |i|
+          
+    #   end
     #   binding.pry
-      puts a[0].theater.location
-      puts "\n\n"
-      a.each do |i|
+    #   puts a[0].theater.location
+    #   puts "\n\n"
+      a.shows.each do |i|
+        #   binding.pry
           puts i.name.colorize(:light_magenta)  ##red
           puts i.dates.colorize(:light_red)  ##light_red
           puts i.description.colorize(:red)

@@ -17,7 +17,11 @@ class Theater
     end
     
     def add_show(show)
-        self.shows << show if !self.shows.include?(show)
+        shows << show if !shows.include?(show)
+    end
+    
+    def get_songs_by_name
+        shows.map {|show| show.name}
     end
     
 end

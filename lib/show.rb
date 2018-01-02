@@ -40,7 +40,7 @@ class Show
        
    end
    
-   def self.get_songs_by_name
+   def self.get_shows_by_name
       @@all.map {|i| i.name} 
    end
     

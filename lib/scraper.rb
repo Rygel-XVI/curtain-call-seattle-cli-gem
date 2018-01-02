@@ -37,8 +37,9 @@ class Scraper
             show.name = i.css("h2 a").text
             show.dates = i.css(".date").text
             show.theater = the5th
-            desc = i.css("p")[1].text
-            show.description = desc.gsub /\t/, ''
+            # desc = i.css("p")[1].text
+            # show.description = desc.gsub /\t/, ''
+            show.description = parse_description_5th(i)
             show.save
             # binding.pry
             
@@ -54,6 +55,11 @@ class Scraper
         end
         # binding.pry
 
+    end
+    
+    def self.parse_description_5th(i)
+        desc = i.css("p")[1].text
+        desc.gsub! /\t/, ''
     end
     
 # change this later to 'click' on the top link and parses the info in that so it works next year
