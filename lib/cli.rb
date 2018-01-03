@@ -7,31 +7,38 @@ class SeattleTheaterController
       Scraper.scrape_childrens('https://www.sct.org/Shows/2017-2018-Season')
    end
    
-   def call
-       #1. scrapes the websites
-       #2. make objects from those websites
-       #3. Class show has  :theaters, :dates, :description
-       #4. Class theater has :shows, :dates, :location
-       #5. 
+   
+   ##for testing purposes
+   def test_call
+      shows_by_date
        
-      # asks if you would like shows by theater, date/time
-      puts "Would you like shows by theater, date?"
-      input = gets.chomp
-      #gets input and calls method mased on input
-
-      case input
-      when /theater/i
-          choose_theater
-      when /date/i
-          shows_by_date
-      else
-          call
-      end
-      
-      #ask for a specific show and then list the show, it's genre, the dates it is playing at for each theater.
-      #also puts a description of the show
-      
    end
+   
+#   def call
+#       #1. scrapes the websites
+#       #2. make objects from those websites
+#       #3. Class show has  :theaters, :dates, :description
+#       #4. Class theater has :shows, :dates, :location
+#       #5. 
+       
+#       # asks if you would like shows by theater, date/time
+#       puts "Would you like shows by theater, date?"
+#       input = gets.chomp
+#       #gets input and calls method mased on input
+
+#       case input
+#       when /theater/i
+#           choose_theater
+#       when /date/i
+#           shows_by_date
+#       else
+#           call
+#       end
+      
+#       #ask for a specific show and then list the show, it's genre, the dates it is playing at for each theater.
+#       #also puts a description of the show
+      
+#   end
     
     def choose_theater
       puts "Which theater would you like to see the shows for?"
@@ -48,7 +55,7 @@ class SeattleTheaterController
         shows_by_theater("The 5th Avenue Theater")
       when "2"
         shows_by_theater("Seattle Children's Theater")
-      when "back"
+      when /back|3/i
         call
       else
          choose_theater 
@@ -98,7 +105,7 @@ class SeattleTheaterController
         shows_by_month
       when "2"
         shows_by_date_range
-      when "back"
+      when /back|3/i
         call
       else
          shows_by_date
@@ -116,6 +123,24 @@ class SeattleTheaterController
             #showing all will be too long of a list for a cli
             #do shows by dates the user enters. can be single days or range
             #maybe shows by month
+    end
+    
+    def shows_by_month
+       puts "Choose month by it's corresponding number (ie Jan = 1, Feb = 2)." 
+       
+       input = gets.chomp
+       
+       if input.to_i == 0
+           d=Date.parse(input)
+           d.mon ## results 1-12
+           binding.pry
+       elsif input == (1..12)
+          Show.get_dates
+          binding.pry
+       else
+           puts "That is not a valid month. Please enter 1-12 or the month"
+           shows_by_month
+       end
     end
 
 end

@@ -40,7 +40,7 @@ class Show
        
    end
    
-   def get_dates
+   def self.get_dates
       self.dates.map do |i|  
         #   binding.pry
          i.dates
