@@ -56,7 +56,8 @@ class SeattleTheaterController
       when "2"
         shows_by_theater("Seattle Children's Theater")
       when /back|3/i
-        call
+          test_call
+        # call
       else
          choose_theater 
       end
@@ -106,16 +107,17 @@ class SeattleTheaterController
       when "2"
         shows_by_date_range
       when /back|3/i
-        call
+        test_call
+        # call
       else
          shows_by_date
       end
         
-        puts "shows_by_date"
-        a = Theater.all
-        a = a[0].shows[0].dates
-        x = a.first.to_s
-        y = a.last.to_s
+        # puts "shows_by_date"
+        # a = Theater.all
+        # a = a[0].shows[0].dates
+        # x = a.first.to_s
+        # y = a.last.to_s
         
         ##collect all shows and sort them by start date or end date
         # binding.pry
@@ -129,13 +131,14 @@ class SeattleTheaterController
        puts "Choose month by it's corresponding number (ie Jan = 1, Feb = 2)." 
        
        input = gets.chomp
-       
+       binding.pry
        if input.to_i == 0
            d=Date.parse(input)
            d.mon ## results 1-12
+           Show.get_shows_by_month(d.mon)
            binding.pry
-       elsif input == (1..12)
-          Show.get_dates
+       elsif input.to_i > 0 && input.to_i < 13
+          Show.get_shows_by_month(input.to_i)
           binding.pry
        else
            puts "That is not a valid month. Please enter 1-12 or the month"

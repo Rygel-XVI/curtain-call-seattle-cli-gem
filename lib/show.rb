@@ -47,6 +47,14 @@ class Show
       end
    end
    
+   def self.get_shows_by_month(month)
+      a=Show.all.select do |i| 
+        #   binding.pry
+          i.dates.first.mon == month
+        #  binding.pry
+     end
+   end
+   
    def self.get_shows_by_name
       @@all.map {|i| i.name} 
    end
