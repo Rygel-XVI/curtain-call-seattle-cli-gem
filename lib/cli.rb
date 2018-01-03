@@ -38,6 +38,7 @@ class SeattleTheaterController
       puts "Please enter the corresponding number"
       puts "1. 5th Avenue Theater"
       puts "2. Seattle Children's Theater"
+      puts "3. Go back"
       
       input = gets.chomp
       
@@ -85,6 +86,24 @@ class SeattleTheaterController
     
     #return shows playing on a specific date (or maybe in order by soonest)
     def shows_by_date
+        
+        puts "1. Shows by month?"
+        puts "2. Shows playing on a specific date?"
+        puts "3. Go back"
+        
+        input = gets.chomp
+      
+      case input
+      when "1"
+        shows_by_month
+      when "2"
+        shows_by_date_range
+      when "back"
+        call
+      else
+         shows_by_date
+      end
+        
         puts "shows_by_date"
         a = Theater.all
         a = a[0].shows[0].dates
@@ -93,6 +112,10 @@ class SeattleTheaterController
         
         ##collect all shows and sort them by start date or end date
         # binding.pry
+        
+            #showing all will be too long of a list for a cli
+            #do shows by dates the user enters. can be single days or range
+            #maybe shows by month
     end
 
 end
