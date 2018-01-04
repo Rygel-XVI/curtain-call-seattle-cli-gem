@@ -10,7 +10,7 @@ class SeattleTheaterController
    
    ##for testing purposes
    def test_call
-      shows_by_date
+      choose_theater
        
    end
    
@@ -71,14 +71,15 @@ class SeattleTheaterController
       puts "\n\n"
       puts "Shows at " + x 
       puts a.location
-      puts "/n/n"
+      puts "\n\n"
       
       a.shows.each do |i|
         #   binding.pry
-          puts i.name.colorize(:light_magenta)  ##red
-          puts i.dates.first.to_s.colorize(:light_red) + " to " + i.dates.last.to_s.colorize(:light_red) ##light_red
-          puts i.description.colorize(:red)
-          puts "\n"
+        print_show(i)
+        #   puts i.name.colorize(:light_magenta)  ##red
+        #   puts i.dates.first.to_s.colorize(:light_red) + " to " + i.dates.last.to_s.colorize(:light_red) ##light_red
+        #   puts i.description.colorize(:red)
+        #   puts "\n"
       end
     #   --------------------------
     #   old code just in case
@@ -131,19 +132,29 @@ class SeattleTheaterController
        puts "Choose month by it's corresponding number (ie Jan = 1, Feb = 2)." 
        
        input = gets.chomp
-       binding.pry
        if input.to_i == 0
            d=Date.parse(input)
            d.mon ## results 1-12
-           Show.get_shows_by_month(d.mon)
-           binding.pry
+           Show.get_shows_by_month(d.mon).each do |show|
+               puts show.theater.name
+               print_show(show)
+           end
        elsif input.to_i > 0 && input.to_i < 13
-          Show.get_shows_by_month(input.to_i)
-          binding.pry
+            Show.get_shows_by_month(input.to_i).each do |show| 
+                puts show.theater.name
+                print_show(show)
+            end
        else
            puts "That is not a valid month. Please enter 1-12 or the month"
            shows_by_month
        end
+    end
+    
+    def print_show(show)
+          puts show.name.colorize(:light_magenta)  ##red
+          puts show.dates.first.to_s.colorize(:light_red) + " to " + show.dates.last.to_s.colorize(:light_red) ##light_red
+          puts show.description.colorize(:red)
+          puts "\n"
     end
 
 end

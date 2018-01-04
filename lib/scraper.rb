@@ -85,7 +85,8 @@ class Scraper
             
             show = Show.new
             show.name = i.css("b a").text
-            show.dates = i.css("p b")[1].text
+            # show.dates = i.css("p b")[1].text
+            show.dates = create_dates_childrens(i)
             show.theater = sct
             show.description = parse_description_childrens(i)[1]
             show.save
@@ -102,6 +103,15 @@ class Scraper
         i = i.css("p").text
         i.gsub!(/\t|\n|\r/, "")
         i.split(/\s{2,}/)
+    end
+    
+    def self.create_dates_childrens(i)
+        # binding.pry
+        d = i.css("p b")[1].text
+        d = d.split (/–|,\s/)  ##this is a special dash of some sort it is not a hyphen if you delete this copy paste --> –
+        dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
+        y=dates.map {|x| Date.parse(x)}
+        (y[0]...y[1])
     end
 
 end
