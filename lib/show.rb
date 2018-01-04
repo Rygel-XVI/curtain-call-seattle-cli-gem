@@ -31,15 +31,6 @@ class Show
        @@all.detect {|x| x.name == show_name}
    end
    
-#   take in a hash of a show and if the theater is already included in the show's data then ignore else add the theater to the shows theater array and add the show to the theater object
-# for now leave :theater as a single item not an array maybe add that later if i end up finding multiple listings or just have multiple songs may ok
-   def find_or_add_theater(show_hash)
-       if show_hash[:theater] == get_songs_by_name(show_hash[:name]).theater
-       
-       end
-       
-   end
-   
    def self.get_dates
       self.dates.map do |i|  
         #   binding.pry
