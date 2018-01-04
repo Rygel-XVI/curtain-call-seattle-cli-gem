@@ -51,7 +51,6 @@ class SeattleTheaterController
       
       case input
       when "1"
-        #   binding.pry
         shows_by_theater("The 5th Avenue Theater")
       when "2"
         shows_by_theater("Seattle Children's Theater")
@@ -65,8 +64,7 @@ class SeattleTheaterController
     
     #return shows playing at a specific theater
     def shows_by_theater(x)
-        a=Theater.all.detect {|i| i.name == x}
-        binding.pry
+      a=Theater.all.detect {|i| i.name == x}
 
       puts "\n\n"
       puts "Shows at " + x 
@@ -74,23 +72,12 @@ class SeattleTheaterController
       puts "\n\n"
       
       a.shows.each do |i|
-        #   binding.pry
         print_show(i)
         #   puts i.name.colorize(:light_magenta)  ##red
         #   puts i.dates.first.to_s.colorize(:light_red) + " to " + i.dates.last.to_s.colorize(:light_red) ##light_red
         #   puts i.description.colorize(:red)
         #   puts "\n"
       end
-    #   --------------------------
-    #   old code just in case
-    #   a = Show.all.select {|show| show.theater.name == x}
-    #   a.shows.each do |i|
-          
-    #   end
-    #   binding.pry
-    #   puts a[0].theater.location
-    #   puts "\n\n"
-    # ----------------
     end
     
     #return shows playing on a specific date (or maybe in order by soonest)
@@ -113,19 +100,12 @@ class SeattleTheaterController
       else
          shows_by_date
       end
-        
-        # puts "shows_by_date"
-        # a = Theater.all
-        # a = a[0].shows[0].dates
-        # x = a.first.to_s
-        # y = a.last.to_s
-        
+
         ##collect all shows and sort them by start date or end date
-        # binding.pry
         
-            #showing all will be too long of a list for a cli
-            #do shows by dates the user enters. can be single days or range
-            #maybe shows by month
+        #showing all will be too long of a list for a cli
+        #do shows by dates the user enters. can be single days or range
+        #maybe shows by month
     end
     
     def shows_by_month
