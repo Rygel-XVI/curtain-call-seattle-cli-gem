@@ -142,37 +142,25 @@ class SeattleTheaterController
         puts "Please enter month"
         month = gets.chomp
         
-        ##Getting the month
-        ##if month is a string
-       if Date::ABBR_MONTHNAMES.include?(month) || Date::MONTHNAMES.include?(month)
-        #   binding.pry
-           d=Date.parse(month)
-           month = d.mon ## results 1-12
-       ##if month is a number
-       binding.pry
-   else
-    #   elsif month.to_i > 0 && month.to_i < 13
-           month = month.to_i
-
-       end
-
         puts "Please enter day"
         day = gets.chomp
         
-        ##getting th day
-        if day.to_i == 0
-        #   binding.pry
-           d=Date.parse(day)
-           day = d.day ## results number
-       ##if day is a number
-    #   elsif day.to_i > 0 && day.to_i < 13
-    #       day = day.to_i
-        else 
-       day = day.to_i
-   end
-
         puts "Please enter year"
         year = gets.chomp.to_i
+        
+
+        if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
+            binding.pry
+            month=Date.parse(month.capitalize)
+            month = month.mon
+            binding.pry
+        else
+            month.to_i
+        end
+        
+        valid = Date.valid_date?(year, month.to_i, day.to_i)
+            binding.pry
+  
         # binding.pry
         date_string = "#{day}-#{month}-#{year}"
         binding.pry
