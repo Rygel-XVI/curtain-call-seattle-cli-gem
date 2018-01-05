@@ -102,6 +102,7 @@ class SeattleTheaterController
         #maybe shows by month
     end
     
+    #return shows by month
     def shows_by_month
        puts "Choose month by it's corresponding number (ie Jan = 1, Feb = 2)." 
        
@@ -122,6 +123,11 @@ class SeattleTheaterController
            puts "That is not a valid month. Please enter 1-12 or the month"
            shows_by_month
        end
+    end
+    
+    #return shows by a specific date or date range
+    def shows_by_day
+        
     end
     
     def print_show(show)
