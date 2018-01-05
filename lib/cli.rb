@@ -10,8 +10,7 @@ class SeattleTheaterController
    
    ##for testing purposes
    def test_call
-      choose_theater
-       
+      shows_by_day
    end
    
 #   def call
@@ -127,7 +126,64 @@ class SeattleTheaterController
     
     #return shows by a specific date or date range
     def shows_by_day
+        date_array = []
+        puts "Initial Date"
+        date_array << create_date
+        puts "Please enter end date (or the same date if only one day)"
+        date_array << create_date
+        binding.pry
         
+        
+    end
+    
+    #helper method to get date input from user
+    def create_date
+
+        puts "Please enter month"
+        month = gets.chomp
+        
+        ##Getting the month
+        ##if month is a string
+       if Date::ABBR_MONTHNAMES.include?(month) || Date::MONTHNAMES.include?(month)
+        #   binding.pry
+           d=Date.parse(month)
+           month = d.mon ## results 1-12
+       ##if month is a number
+       binding.pry
+   else
+    #   elsif month.to_i > 0 && month.to_i < 13
+           month = month.to_i
+
+       end
+
+        puts "Please enter day"
+        day = gets.chomp
+        
+        ##getting th day
+        if day.to_i == 0
+        #   binding.pry
+           d=Date.parse(day)
+           day = d.day ## results number
+       ##if day is a number
+    #   elsif day.to_i > 0 && day.to_i < 13
+    #       day = day.to_i
+        else 
+       day = day.to_i
+   end
+
+        puts "Please enter year"
+        year = gets.chomp.to_i
+        # binding.pry
+        date_string = "#{day}-#{month}-#{year}"
+        binding.pry
+        # date = Date.parse(date_string)
+        if Date.valid_date?(year, month, day)
+            date_string = "#{day}-#{month}-#{year}"
+        else
+            puts "Not a valid date: Month #{month}, Day #{day}, Year #{year}."
+            shows_by_day
+        end
+        Date.new(date_string)
     end
     
     def print_show(show)
