@@ -20,7 +20,6 @@ class Scraper
 # Goes through the website and creates the song
 ##change this to a hash and dynamically add w/ mass assignment later
     def self.scrape_the_5th(url)
-        # binding.pry
         doc = Nokogiri::HTML(open(url))
         a = doc.css("td .zero, td .guts div")
         the5th = Theater.new
@@ -29,7 +28,7 @@ class Scraper
         the5th.save
         
         a.map do |i|
-            begin
+
             ## if i.text isn't words then there is no show there
             next if i.text !~ /\w/
             
@@ -37,17 +36,11 @@ class Scraper
             show.name = i.css("h2 a").text
             # show.dates = i.css(".date").text
             show.dates = create_dates_5th(i)
-            # binding.pry
             show.theater = the5th
             show.description = parse_description_5th(i)
             show.save
 
-            rescue
-            binding.pry
         end
-        end
-        # binding.pry
-
     end
     
     def self.parse_description_5th(i)
@@ -56,8 +49,7 @@ class Scraper
     end
     
     def self.create_dates_5th(i)
-                ##parsing time
-                # binding.pry
+
         d = i.css(".date").text
         d = d.split(/\W{2,}/)
         dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
@@ -65,7 +57,6 @@ class Scraper
         # y[0].year|mon|day
         # range = (y[0]...y[1])
         # range.include?(Date.new(2018,1,6)) returns true
-        # binding.pry
         (y[0]...y[1])
     end
     
@@ -80,8 +71,6 @@ class Scraper
         sct.save
         
         a.map do |i|
-            # binding.pry
-            begin
             
             show = Show.new
             show.name = i.css("b a").text
@@ -90,13 +79,8 @@ class Scraper
             show.theater = sct
             show.description = parse_description_childrens(i)[1]
             show.save
-            # binding.pry
-            rescue
-            binding.pry
-        end
 
         end
-        # binding.pry
     end
     
     def self.parse_description_childrens(i)
@@ -106,7 +90,6 @@ class Scraper
     end
     
     def self.create_dates_childrens(i)
-        # binding.pry
         d = i.css("p b")[1].text
         d = d.split (/–|,\s/)  ##this is a special dash of some sort it is not a hyphen if you delete this copy paste --> –
         dates = [d[0] + " " + d[2], d[1] + " " + d[2]]

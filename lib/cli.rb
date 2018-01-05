@@ -71,13 +71,7 @@ class SeattleTheaterController
       puts a.location
       puts "\n\n"
       
-      a.shows.each do |i|
-        print_show(i)
-        #   puts i.name.colorize(:light_magenta)  ##red
-        #   puts i.dates.first.to_s.colorize(:light_red) + " to " + i.dates.last.to_s.colorize(:light_red) ##light_red
-        #   puts i.description.colorize(:red)
-        #   puts "\n"
-      end
+      a.shows.each {|i| print_show(i)}
     end
     
     #return shows playing on a specific date (or maybe in order by soonest)
