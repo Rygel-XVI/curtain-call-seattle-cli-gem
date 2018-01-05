@@ -150,23 +150,19 @@ class SeattleTheaterController
         
 
         if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
-            binding.pry
             month=Date.parse(month.capitalize)
             month = month.mon
-            binding.pry
         else
-            month.to_i
+            month = month.to_i
         end
         
-        if Date.valid_date?(year, month.to_i, day)
-            date_string = "#{day}-#{month}-#{year}"
-            Date.new(date_string) 
+        if Date.valid_date?(year, month, day)
+            Date.new(year, month, day) 
         else
             puts "Not a valid date: Month #{month}, Day #{day}, Year #{year}."
             shows_by_day
         end
 
-        Date.new(date_string)
     end
     
     
