@@ -143,7 +143,7 @@ class SeattleTheaterController
         month = gets.chomp
         
         puts "Please enter day"
-        day = gets.chomp
+        day = gets.chomp.to_i
         
         puts "Please enter year"
         year = gets.chomp.to_i
@@ -158,21 +158,17 @@ class SeattleTheaterController
             month.to_i
         end
         
-        valid = Date.valid_date?(year, month.to_i, day.to_i)
-            binding.pry
-  
-        # binding.pry
-        date_string = "#{day}-#{month}-#{year}"
-        binding.pry
-        # date = Date.parse(date_string)
-        if Date.valid_date?(year, month, day)
+        if Date.valid_date?(year, month.to_i, day)
             date_string = "#{day}-#{month}-#{year}"
+            Date.new(date_string) 
         else
             puts "Not a valid date: Month #{month}, Day #{day}, Year #{year}."
             shows_by_day
         end
+
         Date.new(date_string)
     end
+    
     
     def print_show(show)
           puts show.name.colorize(:light_magenta)  ##red
