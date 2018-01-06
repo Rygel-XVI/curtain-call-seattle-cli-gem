@@ -58,14 +58,31 @@ class SeattleTheaterController
     
     #return shows playing at a specific theater
     def shows_by_theater(x)
-      a=Theater.all.detect {|i| i.name == x}
-
+    #   a=Theater.all.detect {|i| i.name == x}
+      theater = Theater.find_by_name(x)
+      a = theater.get_shows_by_name
       puts "\n\n"
-      puts "Shows at " + x 
-      puts a.location
+      puts "Shows at " + theater.name
+      puts theater.location
       puts "\n\n"
       
-      a.shows.each {|i| print_show(i)}
+      theater.shows.each.with_index(1) do |show, index| 
+          puts "#{index}. #{show.name.colorize(:light_magenta)}"  #red
+          puts show.dates.first.to_s.colorize(:light_red) + " to " + show.dates.last.to_s.colorize(:light_red)
+          puts "\n"
+        end
+        
+        puts "Pick number to see description or go back."
+        input = gets.chomp
+        if input == /quit/i
+            abort ("Goodbye.")
+        elsif input.to_i > 0 && input.to_i <= theater.shows.size
+            puts theater.shows[input.to_i-1].description
+            puts ""
+        else
+            choose_theater
+        end
+            
     end
     
     #return shows playing on a specific date (or maybe in order by soonest)

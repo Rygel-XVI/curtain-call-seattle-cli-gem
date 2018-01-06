@@ -26,24 +26,24 @@ class Show
        @@all 
     end
       
-#   if show is found check that the theater is in it's list of theaters else create new song
-   def self.exists?(show_name)
-       @@all.detect {|x| x.name == show_name}
-   end
+#   if show is exists check that the theater is in it's list of theaters else create new song
+#   def self.exists?(show_name)
+#       @@all.detect {|x| x.name == show_name}
+#   end
    
-   def self.get_dates
-      self.dates.map do |i|  
-        #   binding.pry
-         i.dates
-      end
-   end
+#   def self.get_dates
+#       self.dates.map do |i|  
+#         #   binding.pry
+#          i.dates
+#       end
+#   end
    
    def self.get_shows_by_month(month)
       self.all.select {|i| i.dates.first.mon == month}
    end
    
    def self.get_shows_by_name
-      @@all.map {|i| i.name} 
+      self.all.map {|i| i.name} 
    end
     
 end
