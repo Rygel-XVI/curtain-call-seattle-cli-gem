@@ -98,7 +98,7 @@ class SeattleTheaterController
       when "1"
         shows_by_month
       when "2"
-        shows_by_date_range
+        shows_by_day
       when /back|3/i
         call
       when /quit/i
@@ -129,29 +129,11 @@ class SeattleTheaterController
                puts show.theater.name
                print_show(show)
            end
-      else
-           puts "That is not a valid month. Please enter 1-12 or the month"
-           shows_by_month
+       else
+           puts "That didn't work. Sending you back to the previous choices."
+           shows_by_date
        end
-           
-           
-        
-    #   if input.to_i == 0
-    #       d=Date.parse(input)
-    #       d.mon ## results 1-12
-    #       Show.get_shows_by_month(d.mon).each do |show|
-    #           puts show.theater.name
-    #           print_show(show)
-    #       end
-    #   elsif input.to_i > 0 && input.to_i < 13
-    #         Show.get_shows_by_month(input.to_i).each do |show| 
-    #             puts show.theater.name
-    #             print_show(show)
-    #         end
-    #   else
-    #       puts "That is not a valid month. Please enter 1-12 or the month"
-    #       shows_by_month
-    #   end
+
     end
     
     #return shows by a specific date or date range
@@ -162,6 +144,10 @@ class SeattleTheaterController
         date_array << create_date
         puts "Please enter end date (or the same date if only one day)"
         date_array << create_date
+        
+        Show.all.each do |show|
+           print_show(show) if show.dates.first <= date_array[1] || show.dates.last >= date_array[0]
+        end
 
     end
     
