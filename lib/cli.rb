@@ -115,14 +115,13 @@ class SeattleTheaterController
        
        month = gets.chomp
        
-       if month == /quit/i
-           abort ("Goodbye.")
-       elsif Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
-            month=Date.parse(month)
-            month = month.mon
-        else
-            month = month.to_i
-        end
+       month == /quit/i ? abort("Goodbye.") : month = month_to_i(month)
+    #   elsif Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
+    #         month=Date.parse(month)
+    #         month = month.mon
+    #     else
+    #         month = month.to_i
+    #     end
         
         if Date.valid_date?(1999, month, 1)
             Show.get_shows_by_month(month).each do |show|
@@ -146,8 +145,9 @@ class SeattleTheaterController
         date_array << create_date
         
         date_array.sort!
-        
+        # binding.pry
         Show.all.each do |show|
+            binding.pry
            print_show(show) if show.dates.first <= date_array[1] || show.dates.last >= date_array[0]
         end
 
@@ -165,12 +165,13 @@ class SeattleTheaterController
         puts "Please enter year"
         year = gets.chomp.to_i
         
-        if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
-            month=Date.parse(month)
-            month = month.mon
-        else
-            month = month.to_i
-        end
+        month = month_to_i(month)
+        # if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
+        #     month=Date.parse(month)
+        #     month = month.mon
+        # else
+        #     month = month.to_i
+        # end
         
         if Date.valid_date?(year, month, day)
             Date.new(year, month, day) 
@@ -179,6 +180,15 @@ class SeattleTheaterController
             shows_by_day
         end
 
+    end
+    
+    def month_to_i(month)
+        if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
+            month=Date.parse(month)
+            month = month.mon
+        else
+            month = month.to_i
+        end
     end
     
     
