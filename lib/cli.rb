@@ -9,35 +9,27 @@ class SeattleTheaterController
    
    
    ##for testing purposes
-   def test_call
-      shows_by_day
-   end
-   
-#   def call
-#       #1. scrapes the websites
-#       #2. make objects from those websites
-#       #3. Class show has  :theaters, :dates, :description
-#       #4. Class theater has :shows, :dates, :location
-#       #5. 
-       
-#       # asks if you would like shows by theater, date/time
-#       puts "Would you like shows by theater, date?"
-#       input = gets.chomp
-#       #gets input and calls method mased on input
-
-#       case input
-#       when /theater/i
-#           choose_theater
-#       when /date/i
-#           shows_by_date
-#       else
-#           call
-#       end
-      
-#       #ask for a specific show and then list the show, it's genre, the dates it is playing at for each theater.
-#       #also puts a description of the show
-      
+#   def test_call
+#       shows_by_day
 #   end
+   
+  def call
+
+      puts "Would you like shows by theater, date?"
+      input = gets.chomp
+
+      case input
+      when /theater/i
+          choose_theater
+      when /date/i
+          shows_by_date
+      when /quit/i
+          abort ("Goodbye.")
+      else
+          call
+      end
+
+  end
     
     def choose_theater
       puts "Which theater would you like to see the shows for?"
@@ -54,11 +46,14 @@ class SeattleTheaterController
       when "2"
         shows_by_theater("Seattle Children's Theater")
       when /back|3/i
-          test_call
-        # call
+        #   test_call
+        call
+      when /quit/i
+        abort ("Goodbye.")
       else
          choose_theater 
       end
+      call
     end
     
     #return shows playing at a specific theater
@@ -88,17 +83,14 @@ class SeattleTheaterController
       when "2"
         shows_by_date_range
       when /back|3/i
-        test_call
-        # call
+        # test_call
+        call
+      when /quit/i
+         abort ("Goodbye.")
       else
          shows_by_date
       end
-
-        ##collect all shows and sort them by start date or end date
-        
-        #showing all will be too long of a list for a cli
-        #do shows by dates the user enters. can be single days or range
-        #maybe shows by month
+      call
     end
     
     #return shows by month
@@ -126,6 +118,7 @@ class SeattleTheaterController
     
     #return shows by a specific date or date range
     def shows_by_day
+        
         date_array = []
         puts "Initial Date"
         date_array << create_date
