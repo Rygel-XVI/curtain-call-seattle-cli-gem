@@ -15,13 +15,13 @@ class SeattleTheaterController
    
   def call
 
-      puts "Would you like shows by theater, date?"
+      puts "Would you like shows by 1.theater or 2.date?"
       input = gets.chomp
 
       case input
-      when /theater/i
+      when /theater|1/i
           choose_theater
-      when /date/i
+      when /date|2/i
           shows_by_date
       when /quit/i
           abort ("Goodbye.")
