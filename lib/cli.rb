@@ -131,12 +131,10 @@ class SeattleTheaterController
         date_array << create_date
         puts "Please enter end date (or the same date if only one day)"
         date_array << create_date
-        binding.pry
-        
-        
+
     end
     
-    #helper method to get date input from user
+    #helper method to get date input from user and returns Date class
     def create_date
 
         puts "Please enter month"
@@ -148,9 +146,8 @@ class SeattleTheaterController
         puts "Please enter year"
         year = gets.chomp.to_i
         
-
         if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
-            month=Date.parse(month.capitalize)
+            month=Date.parse(month)
             month = month.mon
         else
             month = month.to_i
