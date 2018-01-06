@@ -1,4 +1,3 @@
-# require "curtain-call-seattle/version"
 
 # choose some of these to start  add the rest later. Find the smaller theaters and add those to the list
 # https://www.5thavenue.org/
@@ -10,12 +9,6 @@
 
 
 class Scraper
-  # Your code goes here...
-  
-#   1. take each website w/ nokogiri
-#   2. parse it into arrays to make objects out of that the cli can return values off of
-#   3. objects will be theater, show
-
 
 # Goes through the website and creates the song
 ##change this to a hash and dynamically add w/ mass assignment later
