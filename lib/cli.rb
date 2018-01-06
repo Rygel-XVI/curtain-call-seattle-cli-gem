@@ -58,7 +58,6 @@ class SeattleTheaterController
     
     #return shows playing at a specific theater
     def shows_by_theater(x)
-    #   a=Theater.all.detect {|i| i.name == x}
       theater = Theater.find_by_name(x)
       a = theater.get_shows_by_name
       puts "\n\n"
@@ -74,6 +73,7 @@ class SeattleTheaterController
         
         puts "Pick number to see description or go back."
         input = gets.chomp
+        
         if input == /quit/i
             abort ("Goodbye.")
         elsif input.to_i > 0 && input.to_i <= theater.shows.size
@@ -100,7 +100,6 @@ class SeattleTheaterController
       when "2"
         shows_by_date_range
       when /back|3/i
-        # test_call
         call
       when /quit/i
          abort ("Goodbye.")
@@ -114,23 +113,43 @@ class SeattleTheaterController
     def shows_by_month
        puts "Choose month by it's corresponding number (ie Jan = 1, Feb = 2)." 
        
-       input = gets.chomp
-       if input.to_i == 0
-           d=Date.parse(input)
-           d.mon ## results 1-12
-           Show.get_shows_by_month(d.mon).each do |show|
+       month = gets.chomp
+       
+       if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
+            month=Date.parse(month)
+            month = month.mon
+        else
+            month = month.to_i
+        end
+        
+        if Date.valid_date?(1999, month, 1)
+            Show.get_shows_by_month(d.mon).each do |show|
                puts show.theater.name
                print_show(show)
            end
-       elsif input.to_i > 0 && input.to_i < 13
-            Show.get_shows_by_month(input.to_i).each do |show| 
-                puts show.theater.name
-                print_show(show)
-            end
-       else
+      else
            puts "That is not a valid month. Please enter 1-12 or the month"
            shows_by_month
        end
+           
+           
+        
+    #   if input.to_i == 0
+    #       d=Date.parse(input)
+    #       d.mon ## results 1-12
+    #       Show.get_shows_by_month(d.mon).each do |show|
+    #           puts show.theater.name
+    #           print_show(show)
+    #       end
+    #   elsif input.to_i > 0 && input.to_i < 13
+    #         Show.get_shows_by_month(input.to_i).each do |show| 
+    #             puts show.theater.name
+    #             print_show(show)
+    #         end
+    #   else
+    #       puts "That is not a valid month. Please enter 1-12 or the month"
+    #       shows_by_month
+    #   end
     end
     
     #return shows by a specific date or date range
