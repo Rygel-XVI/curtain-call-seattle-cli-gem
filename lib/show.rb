@@ -31,13 +31,6 @@ class Show
 #       @@all.detect {|x| x.name == show_name}
 #   end
    
-#   def self.get_dates
-#       self.dates.map do |i|  
-#         #   binding.pry
-#          i.dates
-#       end
-#   end
-   
    def self.get_shows_by_month(month)
       self.all.select {|i| i.dates.first.mon == month}
    end
