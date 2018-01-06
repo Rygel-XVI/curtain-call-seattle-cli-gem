@@ -145,6 +145,8 @@ class SeattleTheaterController
         puts "Please enter end date (or the same date if only one day)"
         date_array << create_date
         
+        date_array.sort!
+        
         Show.all.each do |show|
            print_show(show) if show.dates.first <= date_array[1] || show.dates.last >= date_array[0]
         end
