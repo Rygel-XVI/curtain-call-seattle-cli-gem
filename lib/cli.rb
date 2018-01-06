@@ -125,7 +125,7 @@ class SeattleTheaterController
         end
         
         if Date.valid_date?(1999, month, 1)
-            Show.get_shows_by_month(d.mon).each do |show|
+            Show.get_shows_by_month(month).each do |show|
                puts show.theater.name
                print_show(show)
            end
