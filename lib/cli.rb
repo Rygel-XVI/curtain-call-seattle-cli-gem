@@ -115,7 +115,9 @@ class SeattleTheaterController
        
        month = gets.chomp
        
-       if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
+       if month == /quit/i
+           abort ("Goodbye.")
+       elsif Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
             month=Date.parse(month)
             month = month.mon
         else
