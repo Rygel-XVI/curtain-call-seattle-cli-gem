@@ -4,9 +4,6 @@ class CurtainCallSeattle::Show
     
     @@all = []
     
-# add mass assignment initialization later
-# when i initialize i should add it to the theater class if it doesn't exist
-# maybe add a find or create method for theater and song **module**
 
     def initialize(show_hash)
         show_hash.each {|key, value| self.send(("#{key}="), value)}
@@ -31,12 +28,7 @@ class CurtainCallSeattle::Show
     def self.all
        @@all 
     end
-      
-#   if show is exists check that the theater is in it's list of theaters else create new song
-#   def self.exists?(show_name)
-#       @@all.detect {|x| x.name == show_name}
-#   end
-   
+
    def self.get_shows_by_month(month)
       self.all.select {|i| i.dates.first.mon == month}
    end

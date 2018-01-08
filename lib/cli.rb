@@ -42,9 +42,7 @@ class CurtainCallSeattle::SeattleTheaterController
       CurtainCallSeattle::Theater.all.each.with_index(1) do |theater, index|
           puts "#{index}. #{theater.name}"
       end
-    #   puts "1. 5th Avenue Theater"
-    #   puts "2. Seattle Children's Theater"
-    # binding.pry
+
       puts "Go Back"
       
       input = gets.chomp
@@ -53,11 +51,6 @@ class CurtainCallSeattle::SeattleTheaterController
           shows_by_theater(CurtainCallSeattle::Theater.all[input.to_i-1].name)
       else
       case input
-    #   when input.to_i > 0
-    #       binding.pry
-    #     shows_by_theater(CurtainCallSeattle::Theater.all[input.to_i-1].name)
-    #   when "2"
-    #     shows_by_theater("Seattle Children's Theater")
       when /back|3/i
         #   test_call
         call
