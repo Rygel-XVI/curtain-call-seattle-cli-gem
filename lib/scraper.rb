@@ -8,14 +8,14 @@
 # https://www.villagetheatre.org/   everett and issaquah locations
 
 
-class Scraper
+class CurtainCallSeattle::Scraper
 
 # Goes through the website and creates the song
 ##change this to a hash and dynamically add w/ mass assignment later
     def self.scrape_the_5th(url)
         doc = Nokogiri::HTML(open(url))
         a = doc.css("td .zero, td .guts div")
-        the5th = Theater.new
+        the5th = CurtainCallSeattle::Theater.new
         the5th.location = "1308 5th Ave, Seattle, WA 98101"
         the5th.name = "The 5th Avenue Theater"
         the5th.save
@@ -25,7 +25,7 @@ class Scraper
             ## if i.text isn't words then there is no show there
             next if i.text !~ /\w/
             
-            show = Show.new
+            show = CurtainCallSeattle::Show.new
             show.name = i.css("h2 a").text
             # show.dates = i.css(".date").text
             show.dates = create_dates_5th(i)
@@ -58,14 +58,14 @@ class Scraper
         doc = Nokogiri::HTML(open(url))
         a = doc.css("div.content table.pagelist tr td")
         
-        sct = Theater.new
+        sct = CurtainCallSeattle::Theater.new
         sct.location = "201 Thomas St, Seattle, WA 98109"
         sct.name = "Seattle Children's Theater"
         sct.save
         
         a.map do |i|
             
-            show = Show.new
+            show = CurtainCallSeattle::Show.new
             show.name = i.css("b a").text
             # show.dates = i.css("p b")[1].text
             show.dates = create_dates_childrens(i)

@@ -1,4 +1,4 @@
-class Show
+class CurtainCallSeattle::Show
     
     attr_accessor :name, :theater, :dates, :description
     

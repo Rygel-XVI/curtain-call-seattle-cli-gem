@@ -1,4 +1,4 @@
-class Theater
+class CurtainCallSeattle::Theater
 
     attr_accessor :location, :shows, :name
     

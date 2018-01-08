@@ -1,10 +1,10 @@
 require 'colorize'
 require 'time'
-class SeattleTheaterController
+class CurtainCallSeattle::SeattleTheaterController
    
    def initialize
-      Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
-      Scraper.scrape_childrens('https://www.sct.org/Shows/2017-2018-Season')
+      CurtainCallSeattle::Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
+      CurtainCallSeattle::Scraper.scrape_childrens('https://www.sct.org/Shows/2017-2018-Season')
    end
    
    
@@ -58,7 +58,7 @@ class SeattleTheaterController
     
     #return shows playing at a specific theater
     def shows_by_theater(x)
-      theater = Theater.find_by_name(x)
+      theater = CurtainCallSeattle::Theater.find_by_name(x)
       a = theater.get_shows_by_name
       puts "\n\n"
       puts "Shows at " + theater.name
@@ -116,15 +116,9 @@ class SeattleTheaterController
        month = gets.chomp
        
        month == /quit/i ? abort("Goodbye.") : month = month_to_i(month)
-    #   elsif Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
-    #         month=Date.parse(month)
-    #         month = month.mon
-    #     else
-    #         month = month.to_i
-    #     end
         
         if Date.valid_date?(1999, month, 1)
-            Show.get_shows_by_month(month).each do |show|
+            CurtainCallSeattle::Show.get_shows_by_month(month).each do |show|
                puts show.theater.name
                print_show(show)
            end
@@ -146,8 +140,8 @@ class SeattleTheaterController
         
         date_array.sort!
         # binding.pry
-        Show.all.each do |show|
-            binding.pry
+        CurtainCallSeattle::Show.all.each do |show|
+            # binding.pry
            print_show(show) if show.dates.first <= date_array[1] || show.dates.last >= date_array[0]
         end
 
@@ -166,12 +160,6 @@ class SeattleTheaterController
         year = gets.chomp.to_i
         
         month = month_to_i(month)
-        # if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
-        #     month=Date.parse(month)
-        #     month = month.mon
-        # else
-        #     month = month.to_i
-        # end
         
         if Date.valid_date?(year, month, day)
             Date.new(year, month, day) 
