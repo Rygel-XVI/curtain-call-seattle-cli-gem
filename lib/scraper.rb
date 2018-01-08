@@ -19,23 +19,9 @@ class CurtainCallSeattle::Scraper
         the5th.location = "1308 5th Ave, Seattle, WA 98101"
         the5th.name = "The 5th Avenue Theater"
         the5th.save
-        
-        # a.map do |i|
-
-            ## if i.text isn't words then there is no show there
-            # next if i.text !~ /\w/
 
             a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("h2 a").text, :dates => create_dates_5th(i), :theater => the5th, :description => parse_description_5th(i)}}
             
-            # show = CurtainCallSeattle::Show.new
-            # show.name = i.css("h2 a").text
-            # # show.dates = i.css(".date").text
-            # show.dates = create_dates_5th(i)
-            # show.theater = the5th
-            # show.description = parse_description_5th(i)
-            # show.save
-
-        # end
     end
     
     def self.parse_description_5th(i)
@@ -49,9 +35,6 @@ class CurtainCallSeattle::Scraper
         d = d.split(/\W{2,}/)
         dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
         y=dates.map {|x| Date.parse(x)}
-        # y[0].year|mon|day
-        # range = (y[0]...y[1])
-        # range.include?(Date.new(2018,1,6)) returns true
         (y[0]...y[1])
     end
     
@@ -67,14 +50,6 @@ class CurtainCallSeattle::Scraper
         sct.save
 
             a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, :dates => create_dates_childrens(i), :theater => sct, :description => parse_description_childrens(i)[1]}}
-            
-            # show = CurtainCallSeattle::Show.new
-            # show.name = i.css("b a").text
-            # # show.dates = i.css("p b")[1].text
-            # show.dates = create_dates_childrens(i)
-            # show.theater = sct
-            # show.description = parse_description_childrens(i)[1]
-            # show.save
 
     end
     
