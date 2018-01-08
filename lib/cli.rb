@@ -6,7 +6,9 @@ class CurtainCallSeattle::SeattleTheaterController
       fifth = CurtainCallSeattle::Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
       CurtainCallSeattle::Show.create_shows_array(fifth)
       
-      sct = CurtainCallSeattle::Scraper.scrape_childrens('https://www.sct.org/Shows/2017-2018-Season')
+            sct = CurtainCallSeattle::Scraper.scrape_childrens('http://www.sct.org/shows/')
+
+    #   sct = CurtainCallSeattle::Scraper.scrape_childrens('https://www.sct.org/Shows/2017-2018-Season')
       CurtainCallSeattle::Show.create_shows_array(sct)
    end
    
@@ -39,9 +41,7 @@ class CurtainCallSeattle::SeattleTheaterController
       puts "Which theater would you like to see the shows for?"
       puts "Please enter the corresponding number"
       
-      CurtainCallSeattle::Theater.all.each.with_index(1) do |theater, index|
-          puts "#{index}. #{theater.name}"
-      end
+      CurtainCallSeattle::Theater.all.each.with_index(1) {|theater, index| puts "#{index}. #{theater.name}"}
 
       puts "Go Back"
       
@@ -74,7 +74,7 @@ class CurtainCallSeattle::SeattleTheaterController
       
       theater.shows.each.with_index(1) do |show, index| 
           puts "#{index}. #{show.name.colorize(:light_magenta)}"  #red
-          puts show.dates.first.to_s.colorize(:light_red) + " to " + show.dates.last.to_s.colorize(:light_red)
+          puts (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:light_blue)
           puts "\n"
         end
         
@@ -84,7 +84,7 @@ class CurtainCallSeattle::SeattleTheaterController
         if input == /quit/i
             abort ("Goodbye.")
         elsif input.to_i > 0 && input.to_i <= theater.shows.size
-            puts theater.shows[input.to_i-1].description
+            puts (theater.shows[input.to_i-1].description).colorize(:blue)
             puts ""
         else
             choose_theater
