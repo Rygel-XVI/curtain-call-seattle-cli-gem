@@ -38,17 +38,26 @@ class CurtainCallSeattle::SeattleTheaterController
     def choose_theater
       puts "Which theater would you like to see the shows for?"
       puts "Please enter the corresponding number"
-      puts "1. 5th Avenue Theater"
-      puts "2. Seattle Children's Theater"
-      puts "3. Go back"
+      
+      CurtainCallSeattle::Theater.all.each.with_index(1) do |theater, index|
+          puts "#{index}. #{theater.name}"
+      end
+    #   puts "1. 5th Avenue Theater"
+    #   puts "2. Seattle Children's Theater"
+    # binding.pry
+      puts "Go Back"
       
       input = gets.chomp
-      
+
+      if input.to_i > 0 
+          shows_by_theater(CurtainCallSeattle::Theater.all[input.to_i-1].name)
+      else
       case input
-      when "1"
-        shows_by_theater("The 5th Avenue Theater")
-      when "2"
-        shows_by_theater("Seattle Children's Theater")
+    #   when input.to_i > 0
+    #       binding.pry
+    #     shows_by_theater(CurtainCallSeattle::Theater.all[input.to_i-1].name)
+    #   when "2"
+    #     shows_by_theater("Seattle Children's Theater")
       when /back|3/i
         #   test_call
         call
@@ -58,6 +67,7 @@ class CurtainCallSeattle::SeattleTheaterController
          choose_theater 
       end
       call
+  end
     end
     
     #return shows playing at a specific theater
@@ -118,7 +128,6 @@ class CurtainCallSeattle::SeattleTheaterController
        puts "Choose month by it's corresponding number (ie Jan = 1, Feb = 2)." 
        
        month = gets.chomp
-       
        month == /quit/i ? abort("Goodbye.") : month = month_to_i(month)
         
         if Date.valid_date?(1999, month, 1)
@@ -143,9 +152,7 @@ class CurtainCallSeattle::SeattleTheaterController
         date_array << create_date
         
         date_array.sort!
-        # binding.pry
         CurtainCallSeattle::Show.all.each do |show|
-            # binding.pry
            print_show(show) if show.dates.first <= date_array[1] || show.dates.last >= date_array[0]
         end
 
@@ -174,6 +181,7 @@ class CurtainCallSeattle::SeattleTheaterController
 
     end
     
+    #converts month user input to an integer
     def month_to_i(month)
         if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
             month=Date.parse(month)
@@ -183,7 +191,7 @@ class CurtainCallSeattle::SeattleTheaterController
         end
     end
     
-    
+    #puts show information including description
     def print_show(show)
           puts show.name.colorize(:light_magenta)  ##red
           puts show.dates.first.to_s.colorize(:light_red) + " to " + show.dates.last.to_s.colorize(:light_red) ##light_red

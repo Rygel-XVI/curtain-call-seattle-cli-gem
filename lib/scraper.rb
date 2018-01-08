@@ -1,4 +1,3 @@
-
 # choose some of these to start  add the rest later. Find the smaller theaters and add those to the list
 # https://www.5thavenue.org/
 # https://www.seattlerep.org/
@@ -7,7 +6,6 @@
 # https://www.stgpresents.org/   includes moore, paramount, neptune
 # https://www.villagetheatre.org/   everett and issaquah locations
 
-##where to createCurtainCallSeattle::Show.new?
 class CurtainCallSeattle::Scraper
 
 # Goes through the website and creates the song
@@ -49,7 +47,7 @@ class CurtainCallSeattle::Scraper
         sct.name = "Seattle Children's Theater"
         sct.save
 
-            a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, :dates => create_dates_childrens(i), :theater => sct, :description => parse_description_childrens(i)[1]}}
+        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, :dates => create_dates_childrens(i), :theater => sct, :description => parse_description_childrens(i)[1]}}
 
     end
     
