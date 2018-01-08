@@ -2,9 +2,12 @@ require 'colorize'
 require 'time'
 class CurtainCallSeattle::SeattleTheaterController
    
-   def initialize
-      CurtainCallSeattle::Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
-      CurtainCallSeattle::Scraper.scrape_childrens('https://www.sct.org/Shows/2017-2018-Season')
+   def create_theaters_and_shows
+      fifth = CurtainCallSeattle::Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
+      CurtainCallSeattle::Show.create_shows_array(fifth)
+      
+      sct = CurtainCallSeattle::Scraper.scrape_childrens('https://www.sct.org/Shows/2017-2018-Season')
+      CurtainCallSeattle::Show.create_shows_array(sct)
    end
    
    
@@ -14,6 +17,7 @@ class CurtainCallSeattle::SeattleTheaterController
 #   end
    
   def call
+     create_theaters_and_shows
 
       puts "Would you like shows by 1.theater or 2.date?"
       input = gets.chomp

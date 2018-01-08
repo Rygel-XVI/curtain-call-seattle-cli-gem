@@ -7,7 +7,7 @@
 # https://www.stgpresents.org/   includes moore, paramount, neptune
 # https://www.villagetheatre.org/   everett and issaquah locations
 
-
+##where to createCurtainCallSeattle::Show.new?
 class CurtainCallSeattle::Scraper
 
 # Goes through the website and creates the song
@@ -20,20 +20,22 @@ class CurtainCallSeattle::Scraper
         the5th.name = "The 5th Avenue Theater"
         the5th.save
         
-        a.map do |i|
+        # a.map do |i|
 
             ## if i.text isn't words then there is no show there
-            next if i.text !~ /\w/
-            
-            show = CurtainCallSeattle::Show.new
-            show.name = i.css("h2 a").text
-            # show.dates = i.css(".date").text
-            show.dates = create_dates_5th(i)
-            show.theater = the5th
-            show.description = parse_description_5th(i)
-            show.save
+            # next if i.text !~ /\w/
 
-        end
+            a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("h2 a").text, :dates => create_dates_5th(i), :theater => the5th, :description => parse_description_5th(i)}}
+            
+            # show = CurtainCallSeattle::Show.new
+            # show.name = i.css("h2 a").text
+            # # show.dates = i.css(".date").text
+            # show.dates = create_dates_5th(i)
+            # show.theater = the5th
+            # show.description = parse_description_5th(i)
+            # show.save
+
+        # end
     end
     
     def self.parse_description_5th(i)
@@ -54,6 +56,7 @@ class CurtainCallSeattle::Scraper
     end
     
 # change this later to 'click' on the top link and parses the info in that so it works next year
+# in a future version add appropriate age info and info for accomodations (ie interpreters)
     def self.scrape_childrens(url)    
         doc = Nokogiri::HTML(open(url))
         a = doc.css("div.content table.pagelist tr td")
@@ -62,18 +65,17 @@ class CurtainCallSeattle::Scraper
         sct.location = "201 Thomas St, Seattle, WA 98109"
         sct.name = "Seattle Children's Theater"
         sct.save
-        
-        a.map do |i|
-            
-            show = CurtainCallSeattle::Show.new
-            show.name = i.css("b a").text
-            # show.dates = i.css("p b")[1].text
-            show.dates = create_dates_childrens(i)
-            show.theater = sct
-            show.description = parse_description_childrens(i)[1]
-            show.save
 
-        end
+            a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, :dates => create_dates_childrens(i), :theater => sct, :description => parse_description_childrens(i)[1]}}
+            
+            # show = CurtainCallSeattle::Show.new
+            # show.name = i.css("b a").text
+            # # show.dates = i.css("p b")[1].text
+            # show.dates = create_dates_childrens(i)
+            # show.theater = sct
+            # show.description = parse_description_childrens(i)[1]
+            # show.save
+
     end
     
     def self.parse_description_childrens(i)

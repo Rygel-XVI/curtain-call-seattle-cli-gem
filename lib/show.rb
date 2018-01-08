@@ -8,10 +8,16 @@ class CurtainCallSeattle::Show
 # when i initialize i should add it to the theater class if it doesn't exist
 # maybe add a find or create method for theater and song **module**
 
-    # def initialize(show_hash)
-    #     show_hash.each {|key, value| self.send(("#{key}="), value)}
-    #     save
-    # end
+    def initialize(show_hash)
+        show_hash.each {|key, value| self.send(("#{key}="), value)}
+        save
+    end
+    
+    def self.create_shows_array(show_array)
+       show_array.each do |show| 
+           CurtainCallSeattle::Show.new(show) if show != nil
+       end
+    end
     
     def theater=(theater)
        @theater = theater
