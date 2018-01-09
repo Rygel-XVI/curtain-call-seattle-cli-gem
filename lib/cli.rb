@@ -2,24 +2,16 @@ require 'colorize'
 require 'time'
 class CurtainCallSeattle::SeattleTheaterController
    
-   def create_theaters_and_shows
+   def create_shows
       fifth = CurtainCallSeattle::Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
       CurtainCallSeattle::Show.create_shows_array(fifth)
       
-            sct = CurtainCallSeattle::Scraper.scrape_childrens('http://www.sct.org/shows/')
-
-    #   sct = CurtainCallSeattle::Scraper.scrape_childrens('https://www.sct.org/Shows/2017-2018-Season')
+      sct = CurtainCallSeattle::Scraper.scrape_childrens('http://www.sct.org/shows/')
       CurtainCallSeattle::Show.create_shows_array(sct)
+      start
    end
    
-   
-   ##for testing purposes
-#   def test_call
-#       shows_by_day
-#   end
-   
-  def call
-     create_theaters_and_shows
+  def start
 
       puts "Would you like shows by 1.theater or 2.date?"
       input = gets.chomp
@@ -32,7 +24,7 @@ class CurtainCallSeattle::SeattleTheaterController
       when /quit/i
           abort ("Goodbye.")
       else
-          call
+          start
       end
 
   end
@@ -53,13 +45,13 @@ class CurtainCallSeattle::SeattleTheaterController
       case input
       when /back|3/i
         #   test_call
-        call
+        start
       when /quit/i
         abort ("Goodbye.")
       else
          choose_theater 
       end
-      call
+      start
   end
     end
     
@@ -113,7 +105,7 @@ class CurtainCallSeattle::SeattleTheaterController
       else
          shows_by_date
       end
-      call
+      start
     end
     
     #return shows by month
@@ -146,7 +138,9 @@ class CurtainCallSeattle::SeattleTheaterController
         
         date_array.sort!
         CurtainCallSeattle::Show.all.each do |show|
-           print_show(show) if show.dates.first <= date_array[1] || show.dates.last >= date_array[0]
+           if (show.dates.first <= date_array[1] && show.dates.first >= date_array[0]) || (show.dates.last >= date_array[0] && show.dates.last <= date_array[1])
+               print_show(show) 
+           end
         end
 
     end

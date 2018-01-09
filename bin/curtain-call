@@ -5,5 +5,5 @@ puts "Welcome to Curtain Call Seattle!"
 puts "To quit at anytime type quit."
 puts ""
 
-CurtainCallSeattle::SeattleTheaterController.new.call
+CurtainCallSeattle::SeattleTheaterController.new.create_shows
 # SeattleTheaterController.new.test_call

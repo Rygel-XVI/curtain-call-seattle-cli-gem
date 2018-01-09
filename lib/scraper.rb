@@ -40,20 +40,11 @@ class CurtainCallSeattle::Scraper
 # change this later to 'click' on the top link and parses the info in that so it works next year
 # in a future version add appropriate age info and info for accomodations (ie interpreters)
 
-    def self.scrape_childrens(url)    
+    def self.scrape_childrens(url)   
+        binding.pry
         doc = Nokogiri::HTML(open(url))
         a=doc.css("div.left-column ul.left-nav a")[1]['href']
         shows_sct('http://www.sct.org/' + a)
-        # binding.pry
-        # a = doc.css("div.content table.pagelist tr td")
-        
-        # sct = CurtainCallSeattle::Theater.new
-        # sct.location = "201 Thomas St, Seattle, WA 98109"
-        # sct.name = "Seattle Children's Theater"
-        # sct.save
-
-        # a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, :dates => create_dates_childrens(i), :theater => sct, :description => parse_description_childrens(i)[1]}}
-
     end
     
     def self.shows_sct(url)
