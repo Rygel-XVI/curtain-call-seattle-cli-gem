@@ -7,5 +7,6 @@ require_relative '../lib/theater'
 require 'nokogiri'
 require 'open-uri'
 require 'date'
+require 'colorize'
 
 require 'pry'

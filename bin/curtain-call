@@ -6,4 +6,3 @@ puts "To quit at anytime type quit."
 puts ""
 
 CurtainCallSeattle::SeattleTheaterController.new.create_shows
-# SeattleTheaterController.new.test_call

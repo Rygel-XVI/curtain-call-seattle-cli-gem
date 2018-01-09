@@ -8,8 +8,6 @@
 
 class CurtainCallSeattle::Scraper
 
-# Goes through the website and creates the song
-##change this to a hash and dynamically add w/ mass assignment later
 
     def self.scrape_the_5th(url)
         doc = Nokogiri::HTML(open(url))
@@ -37,11 +35,8 @@ class CurtainCallSeattle::Scraper
         (y[0]...y[1])
     end
     
-# change this later to 'click' on the top link and parses the info in that so it works next year
-# in a future version add appropriate age info and info for accomodations (ie interpreters)
-
+## add other info from website in the future (ie shows with interpreters, age recommendations)
     def self.scrape_childrens(url)   
-        binding.pry
         doc = Nokogiri::HTML(open(url))
         a=doc.css("div.left-column ul.left-nav a")[1]['href']
         shows_sct('http://www.sct.org/' + a)
