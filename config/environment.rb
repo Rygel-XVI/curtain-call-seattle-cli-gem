@@ -1,4 +1,5 @@
 require_relative "../lib/curtain-call-seattle/version"
+require_relative "../lib/curtain-call-seattle"
 require_relative '../lib/cli'
 require_relative '../lib/scraper'
 require_relative '../lib/show'
@@ -9,4 +10,4 @@ require 'open-uri'
 require 'date'
 require 'colorize'
 
-require 'pry'
+# require 'pry'
