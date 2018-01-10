@@ -32,8 +32,8 @@ class CurtainCallSeattle::Show
    end
    
    #returns true if the month is in the show date range
-   def show_month_includes?(show, month)
-       show.dates.first.mon <= month && show.dates.last.mon >= month
+   def show_month_includes?(month)
+       self.dates.first.mon <= month && self.dates.last.mon >= month
    end
    
    def self.get_shows_by_name

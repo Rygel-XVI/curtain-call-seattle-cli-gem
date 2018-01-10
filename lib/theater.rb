@@ -29,10 +29,15 @@ class CurtainCallSeattle::Theater
    end
    
    def self.get_shows_by_month(month)
-       binding.pry
+       array = []
       self.all.map do |theater|
-         binding.pry 
+         theater.shows.each do |show| 
+             if show.show_month_includes?(month)
+                 array << show
+             end
+         end
       end
+      array
    end
     
 end
