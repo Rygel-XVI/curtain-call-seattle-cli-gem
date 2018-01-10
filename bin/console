@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "current_seattle_theater"
+require "../curtain-call-seattle"
+require "./lib/.."
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
@@ -11,4 +12,4 @@ require "current_seattle_theater"
 # Pry.start
 
 require "irb"
-IRB.start(__FILE__)
+IRB.start

@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require_relative '../config/environment'
+
+puts "Welcome to Curtain Call Seattle!"
+puts "To quit at anytime type quit."
+puts ""
+
+CurtainCallSeattle::SeattleTheaterController.new.create_shows

@@ -1,16 +1,16 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "current_seattle_theater/version"
+require "curtain-call-seattle/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "current_seattle_theater"
+  spec.name          = "curtain-call-seattle"
   spec.version       = CurrentSeattleTheater::VERSION
-  spec.authors       = ["Annette"]
+  spec.authors       = ["Annette Michaels"]
   spec.email         = ["micha232@umn.edu"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = "Theater in Seattle"
+  spec.description   = "Aggregates shows from the various theater houses in Seattle"
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

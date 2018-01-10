@@ -1,15 +1,16 @@
-# CurrentSeattleTheater
+# CurtainCallSeattle
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/current_seattle_theater`. To experiment with that code, run `bin/console` for an interactive prompt.
+Curtain Call Seattle is a gem that aggregates and organizes the theater playing in the current season in the Greater Seattle Area. You can currently organize shows by month, theater, or date range.
 
-TODO: Delete this and the text above, and describe your gem
+The list of theaters will be expanded in the future.
+Currently it includes Seattle Children's Theater and The 5th Avenue.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'current_seattle_theater'
+gem 'curtain-call-seattle'
 ```
 
 And then execute:
@@ -18,7 +19,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install current_seattle_theater
+    $ gem install curtain-call-seattle
 
 ## Usage
 
@@ -32,4 +33,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/current_seattle_theater.
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/curtain-call-seattle-cli-gem.
