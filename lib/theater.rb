@@ -28,15 +28,13 @@ class CurtainCallSeattle::Theater
       @@all.detect {|theater| theater.name == name}
    end
    
-   def self.get_shows_by_month(month)
+   def get_shows_by_month(month)
        array = []
-      self.all.map do |theater|
-         theater.shows.each do |show| 
+         self.shows.each do |show| 
              if show.show_month_includes?(month)
                  array << show
              end
          end
-      end
       array
    end
     
