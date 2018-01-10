@@ -156,7 +156,7 @@ class CurtainCallSeattle::SeattleTheaterController
         puts "Please enter month if different than current"
         month = gets.chomp
         check_input(month)
-        # binding.pry
+
         month == "" ? month = Date.today.month : month = month_to_i(month)
         
         puts "Please enter day if different than today"
@@ -170,8 +170,6 @@ class CurtainCallSeattle::SeattleTheaterController
         check_input(year)
         
         year == ""  ? year = Date.today.year : year = year.to_i
-        
-        # month = month_to_i(month)
         
         if Date.valid_date?(year, month, day)
             Date.new(year, month, day) 
