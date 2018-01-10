@@ -63,7 +63,7 @@ class CurtainCallSeattle::SeattleTheaterController
       
       if theater.shows.size > 0
         theater.shows.each.with_index(1) do |show, index| 
-          puts "#{index}. #{show.name.colorize(:light_magenta)}"  #red
+          puts "#{index}. #{show.name.colorize(:light_magenta)}"
           puts (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:light_blue)
           puts "\n"
         end
@@ -112,9 +112,13 @@ class CurtainCallSeattle::SeattleTheaterController
        month =~ /quit/i ? abort("Goodbye.") : month = month_to_i(month)
         
         if Date.valid_date?(1999, month, 1)
-            if CurtainCallSeattle::Show.get_shows_by_month(month).size > 0
-                CurtainCallSeattle::Show.get_shows_by_month(month).each do |show|
+            shows = CurtainCallSeattle::Show.get_shows_by_month(month)
+            if shows.size > 0
+                shows.each.with_index(1) do |show, index|
                    puts show.theater.name.colorize(:cyan)
+                   puts "#{index}. #{show.name}"
+                   binding.pry
+                   CurtainCallSeattle::Theater.get_shows_by_month(month)
                    print_show(show)
                end
             else

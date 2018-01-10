@@ -27,5 +27,12 @@ class CurtainCallSeattle::Theater
    def self.find_by_name(name)
       @@all.detect {|theater| theater.name == name}
    end
+   
+   def self.get_shows_by_month(month)
+       binding.pry
+      self.all.map do |theater|
+         binding.pry 
+      end
+   end
     
 end
