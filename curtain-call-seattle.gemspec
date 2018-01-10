@@ -5,7 +5,7 @@ require "curtain-call-seattle/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "curtain-call-seattle"
-  spec.version       = CurrentSeattleTheater::VERSION
+  spec.version       = CurtainCallSeattle::VERSION
   spec.authors       = ["Annette Michaels"]
   spec.email         = ["micha232@umn.edu"]
 
