@@ -87,7 +87,7 @@ class CurtainCallSeattle::SeattleTheaterController
     def shows_by_date
         
         puts "1. Shows by month?"
-        puts "2. Shows playing on a specific date?"
+        puts "2. Shows playing in a date range?"
         
         input = gets.chomp
       
