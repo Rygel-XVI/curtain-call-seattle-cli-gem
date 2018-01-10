@@ -30,28 +30,29 @@ class CurtainCallSeattle::SeattleTheaterController
   end
     
     def choose_theater
+      puts "To quit type 'quit'"
       puts "Which theater would you like to see the shows for?"
       puts "Please enter the corresponding number"
       
-      CurtainCallSeattle::Theater.all.each.with_index(1) {|theater, index| puts "#{index}. #{theater.name}"}
-
-      puts "Go Back"
+      theaters = CurtainCallSeattle::Theater.all
+      theaters.each.with_index(1) {|theater, index| puts "#{index}. #{theater.name}"}
       
       input = gets.chomp
 
-      if input.to_i > 0 
-          shows_by_theater(CurtainCallSeattle::Theater.all[input.to_i-1].name)
+      if input.to_i > 0 && input.to_i <= theaters.size
+          shows_by_theater(theaters[input.to_i-1].name)
       else
-      case input
-      when /back|3/i
-        start
-      when /quit/i
-        abort ("Goodbye.")
-      else
-         choose_theater 
+          case input
+          when /back/i
+            start
+          when /quit/i
+            abort ("Goodbye.")
+          else
+             choose_theater 
+          end
       end
+      
       start
-      end
     end
     
     #return shows playing at a specific theater
@@ -74,16 +75,14 @@ class CurtainCallSeattle::SeattleTheaterController
         
         puts "Pick number to see description or go back."
         input = gets.chomp
-        # binding.pry
+
         if input =~ /quit/i
             abort ("Goodbye.")
         elsif input.to_i > 0 && input.to_i <= theater.shows.size
             puts (theater.shows[input.to_i-1].description).colorize(:blue)
             puts ""
-        else
-            choose_theater
         end
-            
+        choose_theater
     end
     
     #return shows playing on a specific date (or maybe in order by soonest)
