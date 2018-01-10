@@ -47,8 +47,6 @@ class CurtainCallSeattle::SeattleTheaterController
             start
           when /quit/i
             abort ("Goodbye.")
-          else
-             choose_theater 
           end
       end
       
