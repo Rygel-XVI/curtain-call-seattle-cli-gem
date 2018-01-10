@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["micha232@umn.edu"]
 
   spec.summary       = "Theater in Seattle"
-  spec.description   = "Aggregates shows from the various theater houses in Seattle"
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.description   = "Aggregates shows from the various theaters in Seattle"
+  spec.homepage      = "https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem.git"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
