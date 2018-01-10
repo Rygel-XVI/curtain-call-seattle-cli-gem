@@ -139,7 +139,7 @@ class CurtainCallSeattle::SeattleTheaterController
         
         date_array.sort!
         CurtainCallSeattle::Show.all.each do |show|
-          if (show.dates.first <= date_array[1] && show.dates.first >= date_array[0]) || (show.dates.last >= date_array[0] && show.dates.last <= date_array[1])
+          if (show.dates.first <= date_array[1] && show.dates.first >= date_array[0]) || (show.dates.last >= date_array[0] && show.dates.last <= date_array[1]) || (show.dates.first < date_array[0] && show.dates.last > date_array[1])
               puts show.theater.name.colorize(:cyan)
               puts show.theater.location.colorize(:cyan)
               print_show(show)
