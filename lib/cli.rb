@@ -106,7 +106,7 @@ class CurtainCallSeattle::SeattleTheaterController
     
     #return shows by month
     def shows_by_month
-       puts "Choose month by it's corresponding number (ie Jan = 1, Feb = 2)." 
+       puts "Choose month by number, abbreviation, or name (1 = jan = january)." 
        
        month = gets.chomp
        month =~ /quit/i ? abort("Goodbye.") : month = month_to_i(month)
