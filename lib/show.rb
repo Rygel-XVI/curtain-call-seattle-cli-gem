@@ -29,7 +29,7 @@ class CurtainCallSeattle::Show
     end
 
    def self.get_shows_by_month(month)
-      self.all.select {|i| i.dates.first.mon == month}
+      self.all.select {|i| i.dates.first.mon <= month && i.dates.last.mon >= month}
    end
    
    def self.get_shows_by_name

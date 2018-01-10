@@ -123,10 +123,11 @@ class CurtainCallSeattle::SeattleTheaterController
                puts "No shows for that month"
             end
         else
-           puts "That didn't work. Sending you back to the previous choices."
+           puts "Sending you back to the previous choices."
            shows_by_date
         end
         
+        shows_by_month
     end
     
     #return shows by a specific date or date range
@@ -141,12 +142,14 @@ class CurtainCallSeattle::SeattleTheaterController
         date_array.sort!
         CurtainCallSeattle::Show.all.each do |show|
           if (show.dates.first <= date_array[1] && show.dates.first >= date_array[0]) || (show.dates.last >= date_array[0] && show.dates.last <= date_array[1])
-              puts show.theater.name.colorize(:light_blue)
-              puts show.theater.location.colorize(:light_blue)
+              puts show.theater.name.colorize(:cyan)
+              puts show.theater.location.colorize(:cyan)
               print_show(show)
           end
         end
 
+        shows_by_date
+        
     end
     
     #helper method to get date input from user and returns Date class
