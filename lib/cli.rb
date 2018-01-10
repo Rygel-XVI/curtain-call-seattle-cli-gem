@@ -153,16 +153,25 @@ class CurtainCallSeattle::SeattleTheaterController
     #helper method to get date input from user and returns Date class
     def create_date
 
-        puts "Please enter month"
+        puts "Please enter month if different than current"
         month = gets.chomp
+        check_input(month)
+        # binding.pry
+        month == "" ? month = Date.today.month : month = month_to_i(month)
         
-        puts "Please enter day"
-        day = gets.chomp.to_i
+        puts "Please enter day if different than today"
+        day = gets.chomp
+        check_input(day)
         
-        puts "Please enter year"
-        year = gets.chomp.to_i
+        day == ""  ? day = Date.today.day : day = day.to_i
         
-        month = month_to_i(month)
+        puts "Please enter year if different then current"
+        year = gets.chomp
+        check_input(year)
+        
+        year == ""  ? year = Date.today.year : year = year.to_i
+        
+        # month = month_to_i(month)
         
         if Date.valid_date?(year, month, day)
             Date.new(year, month, day) 
@@ -171,6 +180,14 @@ class CurtainCallSeattle::SeattleTheaterController
             shows_by_day
         end
 
+    end
+    
+    def check_input(input)
+        if input =~ /quit/i
+            abort("Goodbye.")
+        elsif input =~ /back/i
+            shows_by_date
+        end
     end
     
     #converts month user input to an integer

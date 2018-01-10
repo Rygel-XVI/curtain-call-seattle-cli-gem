@@ -12,7 +12,6 @@ class CurtainCallSeattle::Show
     
     def self.create_shows_array(show_array)
       show_array.each {|show| CurtainCallSeattle::Show.new(show) if show != nil}
-    #   end
     end
     
     def theater=(theater)
