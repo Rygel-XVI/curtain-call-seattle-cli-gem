@@ -140,8 +140,7 @@ class CurtainCallSeattle::SeattleTheaterController
         date_array.sort!
         CurtainCallSeattle::Show.all.each do |show|
           if (show.dates.first <= date_array[1] && show.dates.first >= date_array[0]) || (show.dates.last >= date_array[0] && show.dates.last <= date_array[1]) || (show.dates.first < date_array[0] && show.dates.last > date_array[1])
-              puts show.theater.name.colorize(:cyan)
-              puts show.theater.location.colorize(:cyan)
+              puts show.theater.name.colorize(:light_magenta) + " - ".colorize(:magenta) + show.theater.location.colorize(:magenta)
               print_show(show)
           end
         end
@@ -200,9 +199,9 @@ class CurtainCallSeattle::SeattleTheaterController
     
     #puts show information including description
     def print_show(show)
-          puts show.name.colorize(:light_magenta)
-          puts (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:light_blue)
-          puts show.description.colorize(:blue)
+          puts show.name
+          puts show.dates.first.to_s + " to " + show.dates.last.to_s
+          puts show.description.colorize(:light_blue)
           puts "\n"
     end
 
