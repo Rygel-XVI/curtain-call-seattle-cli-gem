@@ -64,7 +64,7 @@ class CurtainCallSeattle::SeattleTheaterController
       if theater.shows.size > 0
         theater.shows.each.with_index(1) do |show, index| 
           puts "#{index}. #{show.name.colorize(:light_magenta)}"  #red
-          puts (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:light_blue)
+          puts_show_dates(show)
           puts "\n"
         end
       else
@@ -211,19 +211,19 @@ class CurtainCallSeattle::SeattleTheaterController
     end
     
     def puts_theater_name(show)
-        puts show.theater.name.colorize(:light_magenta)
+        puts show.theater.name
     end
     
     def puts_theater_location(show)
-        puts show.theater.location.colorize(:magenta) 
+        puts show.theater.location 
     end
 
     def puts_show_name(show)
-        puts show.name.colorize(:light_blue).underline
+        puts show.name.colorize(:light_magenta).underline
     end
     
     def puts_show_dates(show)
-        puts show.dates.first.to_s + " to " + show.dates.last.to_s
+        puts (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:magenta)
     end
     
     def puts_show_description(show)
