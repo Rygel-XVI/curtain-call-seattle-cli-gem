@@ -77,8 +77,8 @@ class CurtainCallSeattle::SeattleTheaterController
         if input =~ /quit/i
             abort ("Goodbye.")
         elsif input.to_i > 0 && input.to_i <= theater.shows.size
-            puts (theater.shows[input.to_i-1].description).colorize(:blue)
             puts ""
+            print_show(theater.shows[input.to_i-1])
         end
         choose_theater
     end
@@ -215,11 +215,11 @@ class CurtainCallSeattle::SeattleTheaterController
     end
     
     def puts_theater_location(show)
-       puts show.theater.location.colorize(:magenta) 
+        puts show.theater.location.colorize(:magenta) 
     end
 
     def puts_show_name(show)
-        puts show.name
+        puts show.name.colorize(:light_blue).underline
     end
     
     def puts_show_dates(show)
