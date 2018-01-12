@@ -114,8 +114,7 @@ class CurtainCallSeattle::SeattleTheaterController
         if Date.valid_date?(1999, month, 1)
             if CurtainCallSeattle::Show.get_shows_by_month(month).size > 0
                 CurtainCallSeattle::Show.get_shows_by_month(month).each do |show|
-                   puts_theater_name(show)
-                   puts_theater_location(show)
+                   print_theater_from_show(show)
                    print_show(show)
                end
             else
@@ -141,7 +140,7 @@ class CurtainCallSeattle::SeattleTheaterController
         date_array.sort!
         CurtainCallSeattle::Show.all.each do |show|
           if (show.dates.first <= date_array[1] && show.dates.first >= date_array[0]) || (show.dates.last >= date_array[0] && show.dates.last <= date_array[1]) || (show.dates.first < date_array[0] && show.dates.last > date_array[1])
-              puts show.theater.name.colorize(:light_magenta) + " - ".colorize(:magenta) + show.theater.location.colorize(:magenta)
+              print_theater_from_show(show)
               print_show(show)
           end
         end
@@ -204,6 +203,11 @@ class CurtainCallSeattle::SeattleTheaterController
           puts_show_dates(show)
           puts_show_description(show)
           puts "\n"
+    end
+    
+    def print_theater_from_show(show)
+          puts_theater_name(show)
+          puts_theater_location(show)
     end
     
     def puts_theater_name(show)
