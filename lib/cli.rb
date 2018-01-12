@@ -114,7 +114,8 @@ class CurtainCallSeattle::SeattleTheaterController
         if Date.valid_date?(1999, month, 1)
             if CurtainCallSeattle::Show.get_shows_by_month(month).size > 0
                 CurtainCallSeattle::Show.get_shows_by_month(month).each do |show|
-                   puts show.theater.name.colorize(:cyan)
+                   puts_theater_name(show)
+                   puts_theater_location(show)
                    print_show(show)
                end
             else
@@ -199,9 +200,9 @@ class CurtainCallSeattle::SeattleTheaterController
     
     #puts show information including description
     def print_show(show)
-          puts show.name
-          puts show.dates.first.to_s + " to " + show.dates.last.to_s
-          puts show.description.colorize(:light_blue)
+          puts_show_name(show)
+          puts_show_dates(show)
+          puts_show_description(show)
           puts "\n"
     end
     
@@ -210,7 +211,7 @@ class CurtainCallSeattle::SeattleTheaterController
     end
     
     def puts_theater_location(show)
-       show.theater.location.colorize(:magenta) 
+       puts show.theater.location.colorize(:magenta) 
     end
 
     def puts_show_name(show)
