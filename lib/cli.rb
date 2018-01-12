@@ -204,5 +204,25 @@ class CurtainCallSeattle::SeattleTheaterController
           puts show.description.colorize(:light_blue)
           puts "\n"
     end
+    
+    def puts_theater_name(show)
+        puts show.theater.name.colorize(:light_magenta)
+    end
+    
+    def puts_theater_location(show)
+       show.theater.location.colorize(:magenta) 
+    end
+
+    def puts_show_name(show)
+        puts show.name
+    end
+    
+    def puts_show_dates(show)
+        puts show.dates.first.to_s + " to " + show.dates.last.to_s
+    end
+    
+    def puts_show_description(show)
+        puts show.description.colorize(:light_blue)
+    end
 
 end
