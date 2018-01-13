@@ -57,8 +57,8 @@ class CurtainCallSeattle::SeattleTheaterController
     end
     
     #return shows playing at a specific theater
-    def shows_by_theater(x)
-      theater = CurtainCallSeattle::Theater.find_by_name(x)
+    def shows_by_theater(theater_input)
+      theater = CurtainCallSeattle::Theater.find_by_name(theater_input)
       puts "\n\n"
       puts "Shows at " + theater.name
       puts theater.location
@@ -104,7 +104,7 @@ class CurtainCallSeattle::SeattleTheaterController
         when "1"
         shows_by_month
         when "2"
-        shows_by_day
+        shows_by_date_range
         when /quit/i
          abort ("Goodbye.")
         else
@@ -142,7 +142,7 @@ class CurtainCallSeattle::SeattleTheaterController
     end
     
     #return shows by a specific date or date range
-    def shows_by_day
+    def shows_by_date_range
         
         date_array = []
         puts "Initial Date"
@@ -189,7 +189,7 @@ class CurtainCallSeattle::SeattleTheaterController
             Date.new(year, month, day) 
         else
             puts "Not a valid date: Month #{month}, Day #{day}, Year #{year}."
-            shows_by_day
+            shows_by_date_range
         end
 
     end
