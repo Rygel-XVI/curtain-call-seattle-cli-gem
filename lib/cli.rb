@@ -68,7 +68,7 @@ class CurtainCallSeattle::CLI
       if shows.size > 0
         puts_shows_with_index(shows)
       else
-          puts "No shows for #{theater}."
+          puts "No shows for #{theater}.".colorize(:yellow)
       end
         
         #prompts user to choose a show and then displays all of that shows information
@@ -117,18 +117,19 @@ class CurtainCallSeattle::CLI
             shows = CurtainCallSeattle::Show.get_shows_by_month(month)
             if shows.size > 0
                 puts_shows_with_index(shows)
-            else
-               puts "No shows for that month"
-            end
             
-            puts "Pick number to see description or go back."
-            input = gets.chomp
-
-            if input =~ /quit/i
-                abort ("Goodbye.")
-            elsif input.to_i > 0 && input.to_i <= shows.size
-                puts ""
-                print_show(shows[input.to_i-1])
+                puts "Pick number to see description or go back."
+                input = gets.chomp
+    
+                if input =~ /quit/i
+                    abort ("Goodbye.")
+                elsif input.to_i > 0 && input.to_i <= shows.size
+                    puts ""
+                    print_show(shows[input.to_i-1])
+                end
+            
+            else
+               puts "No shows for that month".colorize(:yellow)
             end
             
         else
@@ -151,19 +152,23 @@ class CurtainCallSeattle::CLI
         date_array.sort!
         
         shows = CurtainCallSeattle::Show.get_shows_by_date_range(date_array)
-        
-        puts_shows_with_index(shows)
-          
-        puts "Pick number to see description or go back."
-        input = gets.chomp
-        
-        if input =~ /quit/i
-            abort ("Goodbye.")
-        elsif input.to_i > 0 && input.to_i <= shows.size
-            puts ""
-            print_show(shows[input.to_i-1])
+        if shows.size > 0
+            puts_shows_with_index(shows)
+            
+            puts "Pick number to see description or go back."
+            input = gets.chomp
+            
+            if input =~ /quit/i
+                abort ("Goodbye.")
+            elsif input.to_i > 0 && input.to_i <= shows.size
+                puts ""
+                print_show(shows[input.to_i-1])
+            end
+            
+        else
+            puts "No shows between those dates".colorize(:yellow)
         end
-
+          
         shows_by_date
     end
     
