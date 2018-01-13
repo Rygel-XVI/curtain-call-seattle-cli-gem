@@ -22,7 +22,7 @@ class CurtainCallSeattle::Scraper
         the5th = CurtainCallSeattle::Theater.new
         the5th.location = "1308 5th Ave, Seattle, WA 98101"
         the5th.name = "The 5th Avenue Theater"
-        the5th.save
+        # the5th.save
 
         a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("h2 a").text, :dates => create_dates_5th(i), :theater => the5th, :description => parse_description_5th(i)}}
             
@@ -56,7 +56,7 @@ class CurtainCallSeattle::Scraper
         sct = CurtainCallSeattle::Theater.new
         sct.location = "201 Thomas St, Seattle, WA 98109"
         sct.name = "Seattle Children's Theater"
-        sct.save
+        # sct.save
 
         a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, :dates => create_dates_childrens(i), :theater => sct, :description => parse_description_childrens(i)[1]}}
     end

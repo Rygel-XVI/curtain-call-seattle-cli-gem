@@ -7,6 +7,7 @@ class CurtainCallSeattle::Theater
     
     def initialize
         self.shows = []
+        save
     end
     
     def save
