@@ -120,16 +120,28 @@ class CurtainCallSeattle::CLI
        month =~ /quit/i ? abort("Goodbye.") : month = month_to_i(month)
         
         if Date.valid_date?(1999, month, 1)
-            
-            if CurtainCallSeattle::Show.get_shows_by_month(month).size > 0
+            shows = CurtainCallSeattle::Show.get_shows_by_month(month)
+            if shows.size > 0
                 
-                CurtainCallSeattle::Show.get_shows_by_month(month).each do |show|
-                   print_theater_from_show(show)
-                   print_show(show)
+                shows.each.with_index(1) do |show, index| 
+                    print "#{index}. "
+                    puts_show_name(show)
+                    puts_show_dates(show)
+                    puts "\n"
                 end
                
             else
                puts "No shows for that month"
+            end
+            
+            puts "Pick number to see description or go back."
+            input = gets.chomp
+
+            if input =~ /quit/i
+                abort ("Goodbye.")
+            elsif input.to_i > 0 && input.to_i <= shows.size
+                puts ""
+                print_show(shows[input.to_i-1])
             end
             
         else
