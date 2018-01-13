@@ -161,15 +161,24 @@ class CurtainCallSeattle::CLI
         puts "Please enter end date (or the same date if only one day)"
         date_array << create_date
         
-        #sorts date incase user enters dates backwards
         date_array.sort!
-        CurtainCallSeattle::Show.all.each do |show|
-            
-          if (show.dates.first <= date_array[1] && show.dates.first >= date_array[0]) || (show.dates.last >= date_array[0] && show.dates.last <= date_array[1]) || (show.dates.first < date_array[0] && show.dates.last > date_array[1])
-              print_theater_from_show(show)
-              print_show(show)
-          end
+        
+        shows = CurtainCallSeattle::Show.get_shows_by_date_range(date_array)
+        shows.each.with_index(1) do |show, index|
+            print "#{index}. "
+            puts_show_name(show)
+            puts_show_dates(show)
+            puts "\n"
+        end
           
+        puts "Pick number to see description or go back."
+        input = gets.chomp
+        
+        if input =~ /quit/i
+            abort ("Goodbye.")
+        elsif input.to_i > 0 && input.to_i <= shows.size
+            puts ""
+            print_show(shows[input.to_i-1])
         end
 
         shows_by_date
