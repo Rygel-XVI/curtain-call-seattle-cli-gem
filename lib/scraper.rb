@@ -16,13 +16,13 @@ class CurtainCallSeattle::Scraper
       CurtainCallSeattle::Show.create_shows_array(sct)
     end
 
+### Scraper for The 5th Avenue Theater ###
     def self.scrape_the_5th(url)
         doc = Nokogiri::HTML(open(url))
         a = doc.css("td .zero, td .guts div")
         the5th = CurtainCallSeattle::Theater.new
         the5th.location = "1308 5th Ave, Seattle, WA 98101"
         the5th.name = "The 5th Avenue Theater"
-        # the5th.save
 
         a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("h2 a").text, :dates => create_dates_5th(i), :theater => the5th, :description => parse_description_5th(i)}}
             
@@ -41,6 +41,8 @@ class CurtainCallSeattle::Scraper
         y=dates.map {|x| Date.parse(x)}
         (y[0]...y[1])
     end
+
+###Scraper for Seattle Children's Theater###
     
 ## add other info from website in the future (ie shows with interpreters, age recommendations)
     def self.scrape_childrens(url)   
@@ -56,7 +58,6 @@ class CurtainCallSeattle::Scraper
         sct = CurtainCallSeattle::Theater.new
         sct.location = "201 Thomas St, Seattle, WA 98109"
         sct.name = "Seattle Children's Theater"
-        # sct.save
 
         a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, :dates => create_dates_childrens(i), :theater => sct, :description => parse_description_childrens(i)[1]}}
     end
