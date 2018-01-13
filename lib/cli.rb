@@ -63,7 +63,8 @@ class CurtainCallSeattle::SeattleTheaterController
       
       if theater.shows.size > 0
         theater.shows.each.with_index(1) do |show, index| 
-          puts "#{index}. #{show.name.colorize(:light_magenta)}"  #red
+          print "#{index}. "
+          puts_show_name(show)
           puts_show_dates(show)
           puts "\n"
         end
