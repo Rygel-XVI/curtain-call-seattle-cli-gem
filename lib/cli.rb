@@ -119,31 +119,6 @@ class CurtainCallSeattle::SeattleTheaterController
        month =~ /quit/i ? abort("Goodbye.") : month = month_to_i(month)
         
         if Date.valid_date?(1999, month, 1)
-<<<<<<< HEAD
-            theaters = CurtainCallSeattle::Theater.all
-            theaters.each do |theater|
-                t = theater.get_shows_by_month(month)
-                
-                if t.size > 0
-                    puts theater.name
-                    puts theater.location
-
-                    t.each do |show|
-                        print_show(show)
-                    end
-                    
-                end
-            
-            # shows = CurtainCallSeattle::Show.get_shows_by_month(month)
-            # if shows.size > 0
-            #     shows.each.with_index(1) do |show, index|
-            #       puts show.theater.name.colorize(:cyan)
-            #       puts "#{index}. #{show.name}"
-            #       print_show(show)
-            #   end
-            # else
-            #   puts "No shows for that month"
-=======
             
             if CurtainCallSeattle::Show.get_shows_by_month(month).size > 0
                 
@@ -154,7 +129,6 @@ class CurtainCallSeattle::SeattleTheaterController
                
             else
                puts "No shows for that month"
->>>>>>> master
             end
             
         else
