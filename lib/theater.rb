@@ -2,6 +2,7 @@ class CurtainCallSeattle::Theater
 
     attr_accessor :location, :shows, :name
     
+    
     @@all = []
     
     def initialize

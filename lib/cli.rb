@@ -1,21 +1,19 @@
 
 class CurtainCallSeattle::SeattleTheaterController
    
-   def create_shows
-      fifth = CurtainCallSeattle::Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
-      CurtainCallSeattle::Show.create_shows_array(fifth)
-      
-      sct = CurtainCallSeattle::Scraper.scrape_childrens('http://www.sct.org/shows/')
-      CurtainCallSeattle::Show.create_shows_array(sct)
-      
-      start
-   end
+    def call
+        puts "Welcome to Curtain Call Seattle!"
+        puts "To quit at anytime type quit."
+        puts ""
+        CurtainCallSeattle::Scraper.scrape_urls
+        start
+    end
+ 
    
-  def start
-
+    def start
       puts "Would you like shows by 1.theater or 2.date?"
       input = gets.chomp
-
+    
       case input
       when /theater|1/i
           choose_theater
@@ -26,8 +24,9 @@ class CurtainCallSeattle::SeattleTheaterController
       else
           start
       end
-
-  end
+      
+    end
+    
     
     def choose_theater
       puts "To quit type 'quit'"
@@ -42,44 +41,52 @@ class CurtainCallSeattle::SeattleTheaterController
       if input.to_i > 0 && input.to_i <= theaters.size
           shows_by_theater(theaters[input.to_i-1].name)
       else
+          
           case input
           when /back/i
             start
           when /quit/i
             abort ("Goodbye.")
           end
+          
       end
       
       start
     end
     
     #return shows playing at a specific theater
-    def shows_by_theater(x)
-      theater = CurtainCallSeattle::Theater.find_by_name(x)
+    def shows_by_theater(theater_input)
+      theater = CurtainCallSeattle::Theater.find_by_name(theater_input)
       puts "\n\n"
       puts "Shows at " + theater.name
       puts theater.location
       puts "\n\n"
       
+      #puts each show name next to an index number + 1
       if theater.shows.size > 0
+          
         theater.shows.each.with_index(1) do |show, index| 
-          puts "#{index}. #{show.name.colorize(:light_magenta)}"
-          puts (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:light_blue)
+          print "#{index}. "
+          puts_show_name(show)
+          puts_show_dates(show)
           puts "\n"
         end
+        
       else
           puts "No shows for #{theater}."
       end
         
+        #prompts user to choose a show and then displays all of that shows information
         puts "Pick number to see description or go back."
         input = gets.chomp
 
         if input =~ /quit/i
             abort ("Goodbye.")
         elsif input.to_i > 0 && input.to_i <= theater.shows.size
-            puts (theater.shows[input.to_i-1].description).colorize(:blue)
             puts ""
+            print_show(theater.shows[input.to_i-1])
         end
+        
         choose_theater
     end
     
@@ -87,20 +94,20 @@ class CurtainCallSeattle::SeattleTheaterController
     def shows_by_date
         
         puts "1. Shows by month?"
-        puts "2. Shows playing on a specific date?"
+        puts "2. Shows playing in a date range?"
         
         input = gets.chomp
       
-      case input
-      when "1"
+        case input
+        when "1"
         shows_by_month
-      when "2"
-        shows_by_day
-      when /quit/i
+        when "2"
+        shows_by_date_range
+        when /quit/i
          abort ("Goodbye.")
-      else
+        else
          start
-      end
+        end
 
     end
     
@@ -112,6 +119,7 @@ class CurtainCallSeattle::SeattleTheaterController
        month =~ /quit/i ? abort("Goodbye.") : month = month_to_i(month)
         
         if Date.valid_date?(1999, month, 1)
+<<<<<<< HEAD
             theaters = CurtainCallSeattle::Theater.all
             theaters.each do |theater|
                 t = theater.get_shows_by_month(month)
@@ -135,6 +143,18 @@ class CurtainCallSeattle::SeattleTheaterController
             #   end
             # else
             #   puts "No shows for that month"
+=======
+            
+            if CurtainCallSeattle::Show.get_shows_by_month(month).size > 0
+                
+                CurtainCallSeattle::Show.get_shows_by_month(month).each do |show|
+                   print_theater_from_show(show)
+                   print_show(show)
+                end
+               
+            else
+               puts "No shows for that month"
+>>>>>>> master
             end
             
         else
@@ -146,7 +166,7 @@ class CurtainCallSeattle::SeattleTheaterController
     end
     
     #return shows by a specific date or date range
-    def shows_by_day
+    def shows_by_date_range
         
         date_array = []
         puts "Initial Date"
@@ -154,17 +174,18 @@ class CurtainCallSeattle::SeattleTheaterController
         puts "Please enter end date (or the same date if only one day)"
         date_array << create_date
         
+        #sorts date incase user enters dates backwards
         date_array.sort!
         CurtainCallSeattle::Show.all.each do |show|
+            
           if (show.dates.first <= date_array[1] && show.dates.first >= date_array[0]) || (show.dates.last >= date_array[0] && show.dates.last <= date_array[1]) || (show.dates.first < date_array[0] && show.dates.last > date_array[1])
-              puts show.theater.name.colorize(:cyan)
-              puts show.theater.location.colorize(:cyan)
+              print_theater_from_show(show)
               print_show(show)
           end
+          
         end
 
         shows_by_date
-        
     end
     
     #helper method to get date input from user and returns Date class
@@ -192,11 +213,12 @@ class CurtainCallSeattle::SeattleTheaterController
             Date.new(year, month, day) 
         else
             puts "Not a valid date: Month #{month}, Day #{day}, Year #{year}."
-            shows_by_day
+            shows_by_date_range
         end
 
     end
     
+    #checks user input to see if they want to go back or quit the program
     def check_input(input)
         if input =~ /quit/i
             abort("Goodbye.")
@@ -205,7 +227,7 @@ class CurtainCallSeattle::SeattleTheaterController
         end
     end
     
-    #converts month user input to an integer
+    #converts user input for month into an integer
     def month_to_i(month)
         if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
             month=Date.parse(month)
@@ -214,13 +236,41 @@ class CurtainCallSeattle::SeattleTheaterController
             month = month.to_i
         end
     end
-    
-    #puts show information including description
+
+
+#####This section handles displaying information for the shows#####
+
     def print_show(show)
-          puts show.name.colorize(:light_magenta)
-          puts (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:light_blue)
-          puts show.description.colorize(:blue)
+          puts_show_name(show)
+          puts_show_dates(show)
+          puts_show_description(show)
           puts "\n"
+    end
+    
+    #puts theater name and location/address
+    def print_theater_from_show(show)
+          puts_theater_name(show)
+          puts_theater_location(show)
+    end
+    
+    def puts_theater_name(show)
+        puts show.theater.name
+    end
+    
+    def puts_theater_location(show)
+        puts show.theater.location 
+    end
+
+    def puts_show_name(show)
+        puts show.name.colorize(:light_magenta).underline
+    end
+    
+    def puts_show_dates(show)
+        puts (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:magenta)
+    end
+    
+    def puts_show_description(show)
+        puts show.description.colorize(:light_blue)
     end
 
 end
