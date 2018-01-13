@@ -31,13 +31,7 @@ class CurtainCallSeattle::Theater
    end
    
    def get_shows_by_month(month)
-       array = []
-         self.shows.each do |show| 
-             if show.show_month_includes?(month)
-                 array << show
-             end
-         end
-      array
+      self.shows.map {|show| array << show if show.show_month_includes?(month)}
    end
     
 end
