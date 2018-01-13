@@ -7,7 +7,14 @@
 # https://www.villagetheatre.org/   everett and issaquah locations
 
 class CurtainCallSeattle::Scraper
-
+    
+    def self.scrape_urls
+      fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
+      CurtainCallSeattle::Show.create_shows_array(fifth)
+      
+      sct = self.scrape_childrens('http://www.sct.org/shows/')
+      CurtainCallSeattle::Show.create_shows_array(sct)
+    end
 
     def self.scrape_the_5th(url)
         doc = Nokogiri::HTML(open(url))

@@ -1,14 +1,12 @@
 
 class CurtainCallSeattle::SeattleTheaterController
    
-    def create_shows
-      fifth = CurtainCallSeattle::Scraper.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
-      CurtainCallSeattle::Show.create_shows_array(fifth)
-      
-      sct = CurtainCallSeattle::Scraper.scrape_childrens('http://www.sct.org/shows/')
-      CurtainCallSeattle::Show.create_shows_array(sct)
-      
-      start
+    def call
+        puts "Welcome to Curtain Call Seattle!"
+        puts "To quit at anytime type quit."
+        puts ""
+        CurtainCallSeattle::Scraper.scrape_urls
+        start
     end
  
    
