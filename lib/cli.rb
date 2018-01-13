@@ -10,9 +10,9 @@ class CurtainCallSeattle::SeattleTheaterController
       
       start
    end
+ 
    
   def start
-
       puts "Would you like shows by 1.theater or 2.date?"
       input = gets.chomp
 
@@ -26,8 +26,8 @@ class CurtainCallSeattle::SeattleTheaterController
       else
           start
       end
-
   end
+    
     
     def choose_theater
       puts "To quit type 'quit'"
@@ -61,6 +61,7 @@ class CurtainCallSeattle::SeattleTheaterController
       puts theater.location
       puts "\n\n"
       
+      #puts each show name next to an index number + 1
       if theater.shows.size > 0
         theater.shows.each.with_index(1) do |show, index| 
           print "#{index}. "
@@ -72,6 +73,7 @@ class CurtainCallSeattle::SeattleTheaterController
           puts "No shows for #{theater}."
       end
         
+        #prompts user to choose a show and then displays all of that shows information
         puts "Pick number to see description or go back."
         input = gets.chomp
 
@@ -138,6 +140,7 @@ class CurtainCallSeattle::SeattleTheaterController
         puts "Please enter end date (or the same date if only one day)"
         date_array << create_date
         
+        #sorts date incase user enters dates backwards
         date_array.sort!
         CurtainCallSeattle::Show.all.each do |show|
           if (show.dates.first <= date_array[1] && show.dates.first >= date_array[0]) || (show.dates.last >= date_array[0] && show.dates.last <= date_array[1]) || (show.dates.first < date_array[0] && show.dates.last > date_array[1])
@@ -180,6 +183,7 @@ class CurtainCallSeattle::SeattleTheaterController
 
     end
     
+    #checks user input to see if they want to go back or quit the program
     def check_input(input)
         if input =~ /quit/i
             abort("Goodbye.")
@@ -188,7 +192,7 @@ class CurtainCallSeattle::SeattleTheaterController
         end
     end
     
-    #converts month user input to an integer
+    #converts user input for month into an integer
     def month_to_i(month)
         if Date::ABBR_MONTHNAMES.include?(month.capitalize) || Date::MONTHNAMES.include?(month.capitalize)
             month=Date.parse(month)
@@ -197,8 +201,10 @@ class CurtainCallSeattle::SeattleTheaterController
             month = month.to_i
         end
     end
-    
-    #puts show information including description
+
+
+#####This section handles displaying information for the shows#####
+
     def print_show(show)
           puts_show_name(show)
           puts_show_dates(show)
@@ -206,6 +212,7 @@ class CurtainCallSeattle::SeattleTheaterController
           puts "\n"
     end
     
+    #puts theater name and location/address
     def print_theater_from_show(show)
           puts_theater_name(show)
           puts_theater_location(show)
