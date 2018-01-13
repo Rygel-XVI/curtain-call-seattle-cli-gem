@@ -1,5 +1,5 @@
 
-class CurtainCallSeattle::SeattleTheaterController
+class CurtainCallSeattle::CLI
    
     def call
         puts "Welcome to Curtain Call Seattle!"
@@ -11,6 +11,7 @@ class CurtainCallSeattle::SeattleTheaterController
  
    
     def start
+      puts "To quit type 'quit'"
       puts "Would you like shows by 1.theater or 2.date?"
       input = gets.chomp
     

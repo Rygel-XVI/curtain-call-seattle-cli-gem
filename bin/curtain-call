@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require_relative '../config/environment'
 
-CurtainCallSeattle::SeattleTheaterController.new.call
+CurtainCallSeattle::CLI.new.call
