@@ -66,14 +66,7 @@ class CurtainCallSeattle::CLI
       #puts each show name next to an index number + 1
       shows = theater.shows
       if shows.size > 0
-          
-        shows.each.with_index(1) do |show, index| 
-          print "#{index}. "
-          puts_show_name(show)
-          puts_show_dates(show)
-          puts "\n"
-        end
-        
+        puts_shows_with_index(shows)
       else
           puts "No shows for #{theater}."
       end
@@ -123,14 +116,7 @@ class CurtainCallSeattle::CLI
         if Date.valid_date?(1999, month, 1)
             shows = CurtainCallSeattle::Show.get_shows_by_month(month)
             if shows.size > 0
-                
-                shows.each.with_index(1) do |show, index| 
-                    print "#{index}. "
-                    puts_show_name(show)
-                    puts_show_dates(show)
-                    puts "\n"
-                end
-               
+                puts_shows_with_index(shows)
             else
                puts "No shows for that month"
             end
@@ -165,12 +151,8 @@ class CurtainCallSeattle::CLI
         date_array.sort!
         
         shows = CurtainCallSeattle::Show.get_shows_by_date_range(date_array)
-        shows.each.with_index(1) do |show, index|
-            print "#{index}. "
-            puts_show_name(show)
-            puts_show_dates(show)
-            puts "\n"
-        end
+        
+        puts_shows_with_index(shows)
           
         puts "Pick number to see description or go back."
         input = gets.chomp
@@ -236,6 +218,15 @@ class CurtainCallSeattle::CLI
 
 
 #####This section handles displaying information for the shows#####
+
+    def puts_shows_with_index(shows)
+       shows.each.with_index(1) do |show, index| 
+          print "#{index}. "
+          puts_show_name(show)
+          puts_show_dates(show)
+          puts "\n"
+        end 
+    end
 
     def print_show(show)
           puts_show_name(show)
