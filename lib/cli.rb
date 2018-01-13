@@ -64,9 +64,10 @@ class CurtainCallSeattle::CLI
       puts "\n\n"
       
       #puts each show name next to an index number + 1
-      if theater.shows.size > 0
+      shows = theater.shows
+      if shows.size > 0
           
-        theater.shows.each.with_index(1) do |show, index| 
+        shows.each.with_index(1) do |show, index| 
           print "#{index}. "
           puts_show_name(show)
           puts_show_dates(show)
