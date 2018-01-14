@@ -84,10 +84,15 @@ class CurtainCallSeattle::Scraper
         doc = Nokogiri::HTML(open(url))
         a = doc.css("ul .result")
         
+        paramount = CurtainCallSeattle::Theater.new
+        paramount.location = "911 Pine St, Seattle, WA 98101"
+        paramount.name = "The Paramount Theater"
+        
         a.map do |i|
             begin
            {:name => i.css("img").attr("alt").text,
            :dates => create_dates_paramount(i),
+           :theater => paramount,
            :description => get_description_paramount("https://seattle.broadway.com" + i.css("a")[1]['href'] )}
            rescue
            binding.pry
@@ -109,9 +114,7 @@ class CurtainCallSeattle::Scraper
         elsif c.size == 6
             dates = [c[0] + " " + c[1] + ", " + c[2], c[3] + " " + c[4] + ", " + c[5]]
         end
-        # b = b.text
-        # c = b.split(/–|,\s|\s/)
-        # dates = [c[0] + " " + c[1] + ", " + c[-1], c[0] + " " + c[2] + ", " + c[-1]]
+
         y = dates.map {|x| Date.parse(x)}
         (y[0]...y[1])
         rescue
@@ -121,9 +124,8 @@ class CurtainCallSeattle::Scraper
     
     def self.get_description_paramount(url)
         doc = Nokogiri::HTML(open(url))
-        doc.css("div p").text
-        # a2 = a.split(/\r\n\r\n/)
-        # a2[1]
+        doc.css("div.mod-story p").text
+        # a = doc.css("div.mod-story p")
         # binding.pry
     end
 end
