@@ -63,7 +63,6 @@ class CurtainCallSeattle::CLI
       puts theater.location
       puts "\n\n"
       
-      #puts each show name next to an index number + 1
       shows = theater.shows
       if shows.size > 0
         puts_shows_with_index(shows)
@@ -71,19 +70,7 @@ class CurtainCallSeattle::CLI
       else
           puts "No shows for #{theater}.".colorize(:yellow)
       end
-        
-        #prompts user to choose a show and then displays all of that shows information
-        # choose_show_description(shows)
-        # puts "Pick number to see description or go back."
-        # input = gets.chomp
 
-        # if input =~ /quit/i
-        #     abort ("Goodbye.")
-        # elsif input.to_i > 0 && input.to_i <= theater.shows.size
-        #     puts ""
-        #     print_show(theater.shows[input.to_i-1])
-        # end
-        
         choose_theater
     end
     
@@ -120,16 +107,6 @@ class CurtainCallSeattle::CLI
             if shows.size > 0
                 puts_shows_with_index(shows)
                 choose_show_description(shows)
-                # puts "Pick number to see description or go back."
-                # input = gets.chomp
-    
-                # if input =~ /quit/i
-                #     abort ("Goodbye.")
-                # elsif input.to_i > 0 && input.to_i <= shows.size
-                #     puts ""
-                #     print_show(shows[input.to_i-1])
-                # end
-            
             else
                puts "No shows for that month".colorize(:yellow)
             end
@@ -157,17 +134,6 @@ class CurtainCallSeattle::CLI
         if shows.size > 0
             puts_shows_with_index(shows)
             choose_show_description(shows)
-            
-            # puts "Pick number to see description or go back."
-            # input = gets.chomp
-            
-            # if input =~ /quit/i
-            #     abort ("Goodbye.")
-            # elsif input.to_i > 0 && input.to_i <= shows.size
-            #     puts ""
-            #     print_show(shows[input.to_i-1])
-            # end
-            
         else
             puts "No shows between those dates".colorize(:yellow)
         end
