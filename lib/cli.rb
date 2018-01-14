@@ -67,20 +67,22 @@ class CurtainCallSeattle::CLI
       shows = theater.shows
       if shows.size > 0
         puts_shows_with_index(shows)
+        choose_show_description(shows)
       else
           puts "No shows for #{theater}.".colorize(:yellow)
       end
         
         #prompts user to choose a show and then displays all of that shows information
-        puts "Pick number to see description or go back."
-        input = gets.chomp
+        # choose_show_description(shows)
+        # puts "Pick number to see description or go back."
+        # input = gets.chomp
 
-        if input =~ /quit/i
-            abort ("Goodbye.")
-        elsif input.to_i > 0 && input.to_i <= theater.shows.size
-            puts ""
-            print_show(theater.shows[input.to_i-1])
-        end
+        # if input =~ /quit/i
+        #     abort ("Goodbye.")
+        # elsif input.to_i > 0 && input.to_i <= theater.shows.size
+        #     puts ""
+        #     print_show(theater.shows[input.to_i-1])
+        # end
         
         choose_theater
     end
@@ -223,6 +225,18 @@ class CurtainCallSeattle::CLI
 
 
 #####This section handles displaying information for the shows#####
+
+    def choose_show_description(shows)
+        puts "Pick number to see description or go back."
+        input = gets.chomp
+
+        if input =~ /quit/i
+            abort ("Goodbye.")
+        elsif input.to_i > 0 && input.to_i <= shows.size
+            puts ""
+            print_show(shows[input.to_i-1])
+        end 
+    end
 
     def puts_shows_with_index(shows)
        shows.each.with_index(1) do |show, index| 
