@@ -119,16 +119,16 @@ class CurtainCallSeattle::CLI
             shows = CurtainCallSeattle::Show.get_shows_by_month(month)
             if shows.size > 0
                 puts_shows_with_index(shows)
-            
-                puts "Pick number to see description or go back."
-                input = gets.chomp
+                choose_show_description(shows)
+                # puts "Pick number to see description or go back."
+                # input = gets.chomp
     
-                if input =~ /quit/i
-                    abort ("Goodbye.")
-                elsif input.to_i > 0 && input.to_i <= shows.size
-                    puts ""
-                    print_show(shows[input.to_i-1])
-                end
+                # if input =~ /quit/i
+                #     abort ("Goodbye.")
+                # elsif input.to_i > 0 && input.to_i <= shows.size
+                #     puts ""
+                #     print_show(shows[input.to_i-1])
+                # end
             
             else
                puts "No shows for that month".colorize(:yellow)
@@ -156,16 +156,17 @@ class CurtainCallSeattle::CLI
         shows = CurtainCallSeattle::Show.get_shows_by_date_range(date_array)
         if shows.size > 0
             puts_shows_with_index(shows)
+            choose_show_description(shows)
             
-            puts "Pick number to see description or go back."
-            input = gets.chomp
+            # puts "Pick number to see description or go back."
+            # input = gets.chomp
             
-            if input =~ /quit/i
-                abort ("Goodbye.")
-            elsif input.to_i > 0 && input.to_i <= shows.size
-                puts ""
-                print_show(shows[input.to_i-1])
-            end
+            # if input =~ /quit/i
+            #     abort ("Goodbye.")
+            # elsif input.to_i > 0 && input.to_i <= shows.size
+            #     puts ""
+            #     print_show(shows[input.to_i-1])
+            # end
             
         else
             puts "No shows between those dates".colorize(:yellow)
