@@ -3,7 +3,7 @@
 Curtain Call Seattle is a gem that aggregates and organizes the theater playing in the current season in the Greater Seattle Area. You can currently organize shows by month, theater, or date range.
 
 The list of theaters will be expanded in the future.
-Currently it includes Seattle Children's Theater and The 5th Avenue.
+Currently it includes Seattle Children's Theater, the 5th Avenue, and the Paramount.
 
 ## Installation
 
@@ -33,4 +33,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/curtain-call-seattle-cli-gem.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem.
