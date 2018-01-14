@@ -27,7 +27,11 @@ class CurtainCallSeattle::Scraper
         the5th.location = "1308 5th Ave, Seattle, WA 98101"
         the5th.name = "The 5th Avenue Theater"
 
-        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("h2 a").text, :dates => create_dates_5th(i), :theater => the5th, :description => parse_description_5th(i)}}
+        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("h2 a").text, 
+                                            :dates => create_dates_5th(i), 
+                                            :theater => the5th, 
+                                            :description => parse_description_5th(i)}
+        }
             
     end
     
@@ -41,7 +45,7 @@ class CurtainCallSeattle::Scraper
         d = i.css(".date").text
         d = d.split(/\W{2,}/)
         dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
-        y=dates.map {|x| Date.parse(x)}
+        y = dates.map {|x| Date.parse(x)}
         (y[0]...y[1])
     end
 
@@ -50,7 +54,7 @@ class CurtainCallSeattle::Scraper
 ## add other info from website in the future (ie shows with interpreters, age recommendations)
     def self.scrape_childrens(url)   
         doc = Nokogiri::HTML(open(url))
-        a=doc.css("div.left-column ul.left-nav a")[1]['href']
+        a = doc.css("div.left-column ul.left-nav a")[1]['href']
         shows_sct('http://www.sct.org/' + a)
     end
     
@@ -62,7 +66,11 @@ class CurtainCallSeattle::Scraper
         sct.location = "201 Thomas St, Seattle, WA 98109"
         sct.name = "Seattle Children's Theater"
 
-        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, :dates => create_dates_childrens(i), :theater => sct, :description => parse_description_childrens(i)[1]}}
+        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, 
+                                        :dates => create_dates_childrens(i), 
+                                        :theater => sct, 
+                                        :description => parse_description_childrens(i)[1]}
+        }
     end
     
     def self.parse_description_childrens(i)
@@ -79,6 +87,7 @@ class CurtainCallSeattle::Scraper
         (y[0]...y[1])
     end
 
+
 ###Scraper for Paramount Theater ###
     def self.scrape_paramount(url)
         doc = Nokogiri::HTML(open(url))
@@ -88,44 +97,36 @@ class CurtainCallSeattle::Scraper
         paramount.location = "911 Pine St, Seattle, WA 98101"
         paramount.name = "The Paramount Theater"
         
-        a.map do |i|
-            begin
-           {:name => i.css("img").attr("alt").text,
-           :dates => create_dates_paramount(i),
-           :theater => paramount,
-           :description => get_description_paramount("https://seattle.broadway.com" + i.css("a")[1]['href'] )}
-           rescue
-           binding.pry
-       end
-        end
-        
+        a.map {|i| {:name => i.css("img").attr("alt").text, 
+            :dates => create_dates_paramount(i), 
+            :theater => paramount, 
+            :description => get_description_paramount("https://seattle.broadway.com" + i.css("a")[1]['href'])}
+        }
     end
     
     def self.create_dates_paramount(i)
-        begin
+
         b = i.css("p.dates")
         b.at_css("span").remove if b.at_css("span")
         b = b.text
-        c = b.split(/\s|,\s|–/)
-        if c.size == 4
+        c = b.split(/\s|,\s|–/)  ##this is a special '–' it is not a hyphen do not delete this
+        
+        if c.size == 4  ##format is JAN 2–14, 2018
             dates = [c[0] + " " + c[1] + ", " + c[-1], c[0] + " " + c[2] + ", " + c[-1]]
-        elsif c.size == 5
+        elsif c.size == 5 ##format is FEB 6–MAR 18, 2018
             dates = [c[0] + " " + c[1] + ", " + c[-1], c[2] + " " + c[3] + ", " + c[-1]]
-        elsif c.size == 6
+        elsif c.size == 6  ##format is DEC 13, 2018–JAN 6, 2019
             dates = [c[0] + " " + c[1] + ", " + c[2], c[3] + " " + c[4] + ", " + c[5]]
+        else ##what is a better way? redirecting to the website?
+            dates = ["jan 1, #{Date.today.year}", "dec 31, #{Date.today.year}"]
         end
 
         y = dates.map {|x| Date.parse(x)}
         (y[0]...y[1])
-        rescue
-        binding.pry
-    end
     end
     
     def self.get_description_paramount(url)
         doc = Nokogiri::HTML(open(url))
         doc.css("div.mod-story p").text
-        # a = doc.css("div.mod-story p")
-        # binding.pry
     end
 end

@@ -215,14 +215,12 @@ class CurtainCallSeattle::CLI
     end
 
     def print_show(show)
-        # binding.pry
         puts "#{colorize_show_name(show)} - #{colorize_show_dates(show)}"
         puts "#{colorize_show_description(show)}\n\n"
     end
     
     #puts theater name and location/address
     def print_theater_from_show(show)
-        # binding.pry
         puts "#{colorize_theater_name(show)} - #{colorize_theater_location(show)}"
     end
     
