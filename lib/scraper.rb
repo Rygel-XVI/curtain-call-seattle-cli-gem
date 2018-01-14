@@ -14,6 +14,9 @@ class CurtainCallSeattle::Scraper
       
       sct = self.scrape_childrens('http://www.sct.org/shows/')
       CurtainCallSeattle::Show.create_shows_array(sct)
+      
+      paramount = self.scrape_paramount('https://seattle.broadway.com/shows/tickets/')
+      CurtainCallSeattle::Show.create_shows_array(paramount)
     end
 
 ### Scraper for The 5th Avenue Theater ###
@@ -72,8 +75,55 @@ class CurtainCallSeattle::Scraper
         d = i.css("p b")[1].text
         d = d.split (/–|,\s/)  ##this is a special dash of some sort it is not a hyphen if you delete this copy paste --> –
         dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
-        y=dates.map {|x| Date.parse(x)}
+        y = dates.map {|x| Date.parse(x)}
         (y[0]...y[1])
     end
 
+###Scraper for Paramount Theater ###
+    def self.scrape_paramount(url)
+        doc = Nokogiri::HTML(open(url))
+        a = doc.css("ul .result")
+        
+        a.map do |i|
+            begin
+           {:name => i.css("img").attr("alt").text,
+           :dates => create_dates_paramount(i),
+           :description => get_description_paramount("https://seattle.broadway.com" + i.css("a")[1]['href'] )}
+           rescue
+           binding.pry
+       end
+        end
+        
+    end
+    
+    def self.create_dates_paramount(i)
+        begin
+        b = i.css("p.dates")
+        b.at_css("span").remove if b.at_css("span")
+        b = b.text
+        c = b.split(/\s|,\s|–/)
+        if c.size == 4
+            dates = [c[0] + " " + c[1] + ", " + c[-1], c[0] + " " + c[2] + ", " + c[-1]]
+        elsif c.size == 5
+            dates = [c[0] + " " + c[1] + ", " + c[-1], c[2] + " " + c[3] + ", " + c[-1]]
+        elsif c.size == 6
+            dates = [c[0] + " " + c[1] + ", " + c[2], c[3] + " " + c[4] + ", " + c[5]]
+        end
+        # b = b.text
+        # c = b.split(/–|,\s|\s/)
+        # dates = [c[0] + " " + c[1] + ", " + c[-1], c[0] + " " + c[2] + ", " + c[-1]]
+        y = dates.map {|x| Date.parse(x)}
+        (y[0]...y[1])
+        rescue
+        binding.pry
+    end
+    end
+    
+    def self.get_description_paramount(url)
+        doc = Nokogiri::HTML(open(url))
+        doc.css("div p").text
+        # a2 = a.split(/\r\n\r\n/)
+        # a2[1]
+        # binding.pry
+    end
 end

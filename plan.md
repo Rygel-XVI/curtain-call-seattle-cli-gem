@@ -5,6 +5,10 @@ https://www.seattlerep.org/
 http://www.acttheatre.org
 https://www.sct.org/
 https://www.stgpresents.org/   includes moore, paramount, neptune
+https://www.stgpresents.org/tickets/alphabetical/eventsbyyear/2018/27
+better ==> https://seattle.broadway.com
+best ==> https://seattle.broadway.com/shows/tickets/
+
 https://www.villagetheatre.org/   everett and issaquah locations
 
 can filter what's playing by
