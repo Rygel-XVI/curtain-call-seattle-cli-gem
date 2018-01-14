@@ -61,11 +61,11 @@ class CurtainCallSeattle::CLI
       puts "\n\n"
       puts "Shows at " + theater.name
       puts theater.location
-      puts "\n\n"
+      puts ""
       
       shows = theater.shows
       if shows.size > 0
-        puts_shows_with_index(shows)
+        print_shows_with_index(shows)
         choose_show_description(shows)
       else
           puts "No shows for #{theater}.".colorize(:yellow)
@@ -105,7 +105,8 @@ class CurtainCallSeattle::CLI
         if Date.valid_date?(1999, month, 1)
             shows = CurtainCallSeattle::Show.get_shows_by_month(month)
             if shows.size > 0
-                puts_shows_with_index(shows)
+                puts ""
+                print_shows_with_index(shows)
                 choose_show_description(shows)
             else
                puts "No shows for that month".colorize(:yellow)
@@ -132,7 +133,7 @@ class CurtainCallSeattle::CLI
         
         shows = CurtainCallSeattle::Show.get_shows_by_date_range(date_array)
         if shows.size > 0
-            puts_shows_with_index(shows)
+            print_shows_with_index(shows)
             choose_show_description(shows)
         else
             puts "No shows between those dates".colorize(:yellow)
@@ -201,50 +202,46 @@ class CurtainCallSeattle::CLI
             abort ("Goodbye.")
         elsif input.to_i > 0 && input.to_i <= shows.size
             puts ""
+            print_theater_from_show(shows[input.to_i-1])
             print_show(shows[input.to_i-1])
         end 
     end
 
-    def puts_shows_with_index(shows)
+    def print_shows_with_index(shows)
        shows.each.with_index(1) do |show, index| 
-          print "#{index}. "
-          puts_show_name(show)
-          puts_show_dates(show)
-          puts "\n"
-        end 
+           puts "#{index}. #{colorize_show_name(show)} - #{colorize_show_dates(show)}"
+       end
+       puts ""
     end
 
     def print_show(show)
-          puts_show_name(show)
-          puts_show_dates(show)
-          puts_show_description(show)
-          puts "\n"
+        puts "#{colorize_show_name(show)} - #{colorize_show_dates(show)}"
+        puts "#{colorize_show_description(show)}\n\n"
     end
     
     #puts theater name and location/address
     def print_theater_from_show(show)
-          puts_theater_name(show)
-          puts_theater_location(show)
+        puts "#{colorize_theater_name(show)} - #{colorize_theater_location(show)}"
     end
     
-    def puts_theater_name(show)
-        puts show.theater.name
+    def colorize_theater_name(show)
+        show.theater.name.colorize(:light_magenta)
     end
     
-    def puts_theater_location(show)
-        puts show.theater.location 
+    def colorize_theater_location(show)
+        show.theater.location.colorize(:magenta)
     end
 
-    def puts_show_name(show)
-        puts show.name.colorize(:light_magenta).underline
+    def colorize_show_name(show)
+        show.name.colorize(:light_magenta).underline
     end
     
-    def puts_show_dates(show)
-        puts (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:magenta)
+    def colorize_show_dates(show)
+        (show.dates.first.to_s + " to " + show.dates.last.to_s).colorize(:magenta)
     end
     
-    def puts_show_description(show)
-        puts show.description.colorize(:light_blue)
+    def colorize_show_description(show)
+        show.description.colorize(:light_blue)
     end
 
 end
