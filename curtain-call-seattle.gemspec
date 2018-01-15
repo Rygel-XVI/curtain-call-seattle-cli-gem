@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   #   f.match(%r{^(test|spec|features)/})
   # end
   spec.bindir        = "bin"
-  spec.executables   = "curtain-call-seattle"
+  spec.executables   = "curtain-call"
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.16"
