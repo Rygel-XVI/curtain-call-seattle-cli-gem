@@ -7,16 +7,28 @@
 # https://www.villagetheatre.org/   everett and issaquah locations
 
 class CurtainCallSeattle::Scraper
-    
+
     def self.scrape_urls
+    begin
       fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
       CurtainCallSeattle::Show.create_shows_array(fifth)
-      
+    rescue
+      puts "5th Ave is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
+    end
+
+    begin
       sct = self.scrape_childrens('http://www.sct.org/shows/')
       CurtainCallSeattle::Show.create_shows_array(sct)
-      
+    rescue
+      puts "Childrens Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
+    end
+
+    begin
       paramount = self.scrape_paramount('https://seattle.broadway.com/shows/tickets/')
       CurtainCallSeattle::Show.create_shows_array(paramount)
+    rescue
+      puts "Paramount Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
+    end
     end
 
 ### Scraper for The 5th Avenue Theater ###
@@ -27,19 +39,19 @@ class CurtainCallSeattle::Scraper
         the5th.location = "1308 5th Ave, Seattle, WA 98101"
         the5th.name = "The 5th Avenue Theater"
 
-        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("h2 a").text, 
-                                            :dates => create_dates_5th(i), 
-                                            :theater => the5th, 
+        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("h2 a").text,
+                                            :dates => create_dates_5th(i),
+                                            :theater => the5th,
                                             :description => parse_description_5th(i)}
         }
-            
+
     end
-    
+
     def self.parse_description_5th(i)
         desc = i.css("p")[1].text
         desc.gsub! /\t/, ''
     end
-    
+
     def self.create_dates_5th(i)
 
         d = i.css(".date").text
@@ -50,35 +62,35 @@ class CurtainCallSeattle::Scraper
     end
 
 ###Scraper for Seattle Children's Theater###
-    
+
 ## add other info from website in the future (ie shows with interpreters, age recommendations)
-    def self.scrape_childrens(url)   
+    def self.scrape_childrens(url)
         doc = Nokogiri::HTML(open(url))
         a = doc.css("div.left-column ul.left-nav a")[1]['href']
         shows_sct('http://www.sct.org/' + a)
     end
-    
+
     def self.shows_sct(url)
         doc = Nokogiri::HTML(open(url))
         a = doc.css("div.content table.pagelist tr td")
-        
+
         sct = CurtainCallSeattle::Theater.new
         sct.location = "201 Thomas St, Seattle, WA 98109"
         sct.name = "Seattle Children's Theater"
 
-        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text, 
-                                        :dates => create_dates_childrens(i), 
-                                        :theater => sct, 
+        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text,
+                                        :dates => create_dates_childrens(i),
+                                        :theater => sct,
                                         :description => parse_description_childrens(i)[1]}
         }
     end
-    
+
     def self.parse_description_childrens(i)
         i = i.css("p").text
         i.gsub!(/\t|\n|\r/, "")
         i.split(/\s{2,}/)
     end
-    
+
     def self.create_dates_childrens(i)
         d = i.css("p b")[1].text
         d = d.split (/–|,\s/)  ##this is a special dash of some sort it is not a hyphen if you delete this copy paste --> –
@@ -92,25 +104,25 @@ class CurtainCallSeattle::Scraper
     def self.scrape_paramount(url)
         doc = Nokogiri::HTML(open(url))
         a = doc.css("ul .result")
-        
+
         paramount = CurtainCallSeattle::Theater.new
         paramount.location = "911 Pine St, Seattle, WA 98101"
         paramount.name = "The Paramount Theater"
-        
-        a.map {|i| {:name => i.css("img").attr("alt").text, 
-            :dates => create_dates_paramount(i), 
-            :theater => paramount, 
+
+        a.map {|i| {:name => i.css("img").attr("alt").text,
+            :dates => create_dates_paramount(i),
+            :theater => paramount,
             :description => get_description_paramount("https://seattle.broadway.com" + i.css("a")[1]['href'])}
         }
     end
-    
+
     def self.create_dates_paramount(i)
 
         b = i.css("p.dates")
         b.at_css("span").remove if b.at_css("span")
         b = b.text
         c = b.split(/\s|,\s|–/)  ##this is a special '–' it is not a hyphen do not delete this
-        
+
         if c.size == 4  ##format is JAN 2–14, 2018
             dates = [c[0] + " " + c[1] + ", " + c[-1], c[0] + " " + c[2] + ", " + c[-1]]
         elsif c.size == 5 ##format is FEB 6–MAR 18, 2018
@@ -124,7 +136,7 @@ class CurtainCallSeattle::Scraper
         y = dates.map {|x| Date.parse(x)}
         (y[0]...y[1])
     end
-    
+
     def self.get_description_paramount(url)
         doc = Nokogiri::HTML(open(url))
         doc.css("div.mod-story p").text
