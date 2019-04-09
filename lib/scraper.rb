@@ -78,17 +78,25 @@ class CurtainCallSeattle::Scraper
       begin
         doc = Nokogiri::HTML(open(url))
         binding.pry
-        a = doc.css("div.content table.pagelist tr td")
+        a = doc.css("div.season-production-listing div.row-production-listing")
 
         sct = CurtainCallSeattle::Theater.new
         sct.location = "201 Thomas St, Seattle, WA 98109"
         sct.name = "Seattle Children's Theater"
 
-        a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text,
-                                        :dates => create_dates_childrens(i),
-                                        :theater => sct,
-                                        :description => parse_description_childrens(i)[1]}
-        }
+        a.map do |i|
+          binding.pry
+        # link w/ description ==  i.css("div.col-text a")[0]["href"]
+        # show name == i.css("div.col-text a")[0].text
+        # dates == i.css("div.col-text div.dates").text
+
+        end
+
+        # a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text,
+        #                                 :dates => create_dates_childrens(i),
+        #                                 :theater => sct,
+        #                                 :description => parse_description_childrens(i)[1]}
+        # }
       rescue
         puts "shows_sct not functioning"
       end
