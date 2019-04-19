@@ -9,15 +9,16 @@
 class CurtainCallSeattle::Scraper
 
     def self.scrape_urls
-    begin
-      fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
-      CurtainCallSeattle::Show.create_shows_array(fifth)
-    rescue
-      puts "5th Ave is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
-    end
+    # begin
+    #   fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
+    #   CurtainCallSeattle::Show.create_shows_array(fifth)
+    # rescue
+    #   puts "5th Ave is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
+    # end
 
     begin
       sct = self.scrape_childrens('http://www.sct.org/onstage/')
+      # binding.pry
       CurtainCallSeattle::Show.create_shows_array(sct)
     rescue
       puts "Childrens Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
@@ -77,21 +78,27 @@ class CurtainCallSeattle::Scraper
     def self.shows_sct(url)
       begin
         doc = Nokogiri::HTML(open(url))
-        binding.pry
+        # binding.pry
         a = doc.css("div.season-production-listing div.row-production-listing")
 
         sct = CurtainCallSeattle::Theater.new
         sct.location = "201 Thomas St, Seattle, WA 98109"
         sct.name = "Seattle Children's Theater"
 
-        a.map do |i|
-          binding.pry
+        a.map{|i|
+          {
+          name: i.css("div.col-text a")[0].text,
+          dates: i.css("div.col-text div.dates").text,
+          theater: sct,
+          description: parse_description_childrens(i.css("div.col-text a")[0]["href"])
+        }
+      }
         # link w/ description ==  i.css("div.col-text a")[0]["href"]
         # show name == i.css("div.col-text a")[0].text
         # dates == i.css("div.col-text div.dates").text
 
-        end
 
+        # binding.pry
         # a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text,
         #                                 :dates => create_dates_childrens(i),
         #                                 :theater => sct,
@@ -104,6 +111,7 @@ class CurtainCallSeattle::Scraper
 
     def self.parse_description_childrens(i)
       begin
+        binding.pry
         i = i.css("p").text
         i.gsub!(/\t|\n|\r/, "")
         i.split(/\s{2,}/)
