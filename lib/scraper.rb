@@ -9,17 +9,17 @@
 class CurtainCallSeattle::Scraper
 
     def self.scrape_urls
-    # begin
-    #   fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
-    #   CurtainCallSeattle::Show.create_shows_array(fifth)
-    # rescue
-    #   puts "5th Ave is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
-    # end
+    begin
+      fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
+      CurtainCallSeattle::Show.create_shows_array(fifth)
+    rescue
+      puts "5th Ave is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
+    end
 
     begin
       sct = self.scrape_childrens('http://www.sct.org/onstage/')
-      # binding.pry
       CurtainCallSeattle::Show.create_shows_array(sct)
+
     rescue
       puts "Childrens Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
     end
@@ -78,7 +78,6 @@ class CurtainCallSeattle::Scraper
     def self.shows_sct(url)
       begin
         doc = Nokogiri::HTML(open(url))
-        # binding.pry
         a = doc.css("div.season-production-listing div.row-production-listing")
 
         sct = CurtainCallSeattle::Theater.new
@@ -88,33 +87,20 @@ class CurtainCallSeattle::Scraper
         a.map{|i|
           {
           name: i.css("div.col-text a")[0].text,
-          dates: i.css("div.col-text div.dates").text,
+          dates: create_dates_childrens(i),
           theater: sct,
           description: parse_description_childrens(i.css("div.col-text a")[0]["href"])
         }
       }
-        # link w/ description ==  i.css("div.col-text a")[0]["href"]
-        # show name == i.css("div.col-text a")[0].text
-        # dates == i.css("div.col-text div.dates").text
-
-
-        # binding.pry
-        # a.map {|i| i.text !~ /\w/ ? next : {:name => i.css("b a").text,
-        #                                 :dates => create_dates_childrens(i),
-        #                                 :theater => sct,
-        #                                 :description => parse_description_childrens(i)[1]}
-        # }
       rescue
         puts "shows_sct not functioning"
       end
     end
 
-    def self.parse_description_childrens(i)
+    def self.parse_description_childrens(url)
       begin
-        binding.pry
-        i = i.css("p").text
-        i.gsub!(/\t|\n|\r/, "")
-        i.split(/\s{2,}/)
+        doc = Nokogiri::HTML(open(url))
+        desc = doc.css("meta[name='twitter:description']")[0].attributes["content"].value
       rescue
         puts "sct descriptions not functioning"
       end
@@ -122,8 +108,8 @@ class CurtainCallSeattle::Scraper
 
     def self.create_dates_childrens(i)
       begin
-        d = i.css("p b")[1].text
-        d = d.split (/–|,\s/)  ##this is a special dash of some sort it is not a hyphen if you delete this copy paste --> –
+        d = i.css("div.col-text div.dates").text
+        d = d.split (/-|,\s/)
         dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
         y = dates.map {|x| Date.parse(x)}
         (y[0]...y[1])
