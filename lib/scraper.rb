@@ -53,8 +53,9 @@ class CurtainCallSeattle::Scraper
         desc.gsub! /\t/, ''
     end
 
-    def self.create_dates_5th(i)
 
+    # takes in an opened url to traverse to the dates. converts the date into a Date object
+    def self.create_dates_5th(i)
         d = i.css(".date").text
         d = d.split(/\W{2,}/)
         dates = [d[0] + " " + d[2], d[1] + " " + d[2]]
@@ -106,6 +107,8 @@ class CurtainCallSeattle::Scraper
       end
     end
 
+
+# takes in an opened url to traverse to the dates. converts the date into a Date object
     def self.create_dates_childrens(i)
       begin
         d = i.css("div.col-text div.dates").text
@@ -139,6 +142,7 @@ class CurtainCallSeattle::Scraper
       end
     end
 
+    # takes in an opened url to traverse to the dates. converts the date into a Date object
     def self.create_dates_paramount(i)
       begin
         b = i.css("p.dates")
