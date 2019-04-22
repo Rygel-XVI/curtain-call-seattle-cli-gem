@@ -9,23 +9,24 @@
 class CurtainCallSeattle::Scraper
 
     def self.scrape_urls
-    begin
-      fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
-      CurtainCallSeattle::Show.create_shows_array(fifth)
-    rescue
-      puts "5th Ave is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
-    end
+    # begin
+    #   fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
+    #   CurtainCallSeattle::Show.create_shows_array(fifth)
+    # rescue
+    #   puts "5th Ave is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
+    # end
+    #
+    # begin
+    #   sct = self.scrape_childrens('http://www.sct.org/onstage/')
+    #   CurtainCallSeattle::Show.create_shows_array(sct)
+    #
+    # rescue
+    #   puts "Childrens Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
+    # end
 
     begin
-      sct = self.scrape_childrens('http://www.sct.org/onstage/')
-      CurtainCallSeattle::Show.create_shows_array(sct)
-
-    rescue
-      puts "Childrens Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
-    end
-
-    begin
-      paramount = self.scrape_paramount('https://seattle.broadway.com/shows/tickets/')
+      # paramount = self.scrape_paramount('https://seattle.broadway.com/shows/tickets/')
+      paramount = self.scrape_paramount('https://www.broadway.org/theatres/details/paramount-theatre,433')
       CurtainCallSeattle::Show.create_shows_array(paramount)
     rescue
       puts "Paramount Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
@@ -126,17 +127,25 @@ class CurtainCallSeattle::Scraper
     def self.scrape_paramount(url)
       begin
         doc = Nokogiri::HTML(open(url))
-        a = doc.css("ul .result")
-
+        a = doc.css("div.tour-date-info")
+        # binding.pry
         paramount = CurtainCallSeattle::Theater.new
         paramount.location = "911 Pine St, Seattle, WA 98101"
         paramount.name = "The Paramount Theater"
 
-        a.map {|i| {:name => i.css("img").attr("alt").text,
-            :dates => create_dates_paramount(i),
-            :theater => paramount,
-            :description => get_description_paramount("https://seattle.broadway.com" + i.css("a")[1]['href'])}
+        a.map{|i|
+          binding.pry
+          # name: i.children[1].children.text
+          # description url == i.children[1].values[0]
+          # dates: i.children[3].text.scan(/[a-zA-Z]{3,}\s[0-9]+/)  
+          # theater: paramount
         }
+
+        # a.map {|i| {:name => i.css("img").attr("alt").text,
+        #     :dates => create_dates_paramount(i),
+        #     :theater => paramount,
+        #     :description => get_description_paramount("https://seattle.broadway.com" + i.css("a")[1]['href'])}
+        # }
       rescue
         puts "scrape_paramount broken"
       end
