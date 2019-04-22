@@ -134,11 +134,10 @@ class CurtainCallSeattle::Scraper
         paramount.name = "The Paramount Theater"
 
         a.map{|i|
-          binding.pry
-          # name: i.children[1].children.text
+         { name: i.children[1].children.text,
           # description url == i.children[1].values[0]
-          # dates: i.children[3].text.scan(/[a-zA-Z]{3,}\s[0-9]+/)  
-          # theater: paramount
+          dates: create_dates_paramount(i.children[3].text),
+          theater: paramount }
         }
 
         # a.map {|i| {:name => i.css("img").attr("alt").text,
@@ -154,22 +153,25 @@ class CurtainCallSeattle::Scraper
     # takes in an opened url to traverse to the dates. converts the date into a Date object
     def self.create_dates_paramount(i)
       begin
-        b = i.css("p.dates")
-        b.at_css("span").remove if b.at_css("span")
-        b = b.text
-        c = b.split(/\s|,\s|–/)  ##this is a special '–' it is not a hyphen do not delete this
-
-        if c.size == 4  ##format is JAN 2–14, 2018
-            dates = [c[0] + " " + c[1] + ", " + c[-1], c[0] + " " + c[2] + ", " + c[-1]]
-        elsif c.size == 5 ##format is FEB 6–MAR 18, 2018
-            dates = [c[0] + " " + c[1] + ", " + c[-1], c[2] + " " + c[3] + ", " + c[-1]]
-        elsif c.size == 6  ##format is DEC 13, 2018–JAN 6, 2019
-            dates = [c[0] + " " + c[1] + ", " + c[2], c[3] + " " + c[4] + ", " + c[5]]
-        else ##what is a better way? redirecting to the website?
-            dates = ["jan 1, #{Date.today.year}", "dec 31, #{Date.today.year}"]
-        end
-
+        dates = i.scan(/[a-zA-Z]{3,}\s[0-9]+/)
         y = dates.map {|x| Date.parse(x)}
+
+        # b = i.css("p.dates")
+        # b.at_css("span").remove if b.at_css("span")
+        # b = b.text
+        # c = b.split(/\s|,\s|–/)  ##this is a special '–' it is not a hyphen do not delete this
+        #
+        # if c.size == 4  ##format is JAN 2–14, 2018
+        #     dates = [c[0] + " " + c[1] + ", " + c[-1], c[0] + " " + c[2] + ", " + c[-1]]
+        # elsif c.size == 5 ##format is FEB 6–MAR 18, 2018
+        #     dates = [c[0] + " " + c[1] + ", " + c[-1], c[2] + " " + c[3] + ", " + c[-1]]
+        # elsif c.size == 6  ##format is DEC 13, 2018–JAN 6, 2019
+        #     dates = [c[0] + " " + c[1] + ", " + c[2], c[3] + " " + c[4] + ", " + c[5]]
+        # else ##what is a better way? redirecting to the website?
+        #     dates = ["jan 1, #{Date.today.year}", "dec 31, #{Date.today.year}"]
+        # end
+        #
+        # y = dates.map {|x| Date.parse(x)}
         (y[0]...y[1])
       rescue
         puts "dates_paramount not working"
