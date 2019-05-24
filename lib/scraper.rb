@@ -162,11 +162,4 @@ class CurtainCallSeattle::Scraper
       end
     end
 
-    # def self.get_description_paramount(doc)
-    #   begin
-    #     doc.css(".accordion__panel p").text
-    #   rescue
-    #     puts "description_paramount not working"
-    #   end
-    # end
 end
