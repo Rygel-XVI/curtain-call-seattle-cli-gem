@@ -9,24 +9,23 @@
 class CurtainCallSeattle::Scraper
 
     def self.scrape_urls
-    # begin
-    #   fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
-    #   CurtainCallSeattle::Show.create_shows_array(fifth)
-    # rescue
-    #   puts "5th Ave is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
-    # end
-    #
-    # begin
-    #   sct = self.scrape_childrens('http://www.sct.org/onstage/')
-    #   CurtainCallSeattle::Show.create_shows_array(sct)
-    #
-    # rescue
-    #   puts "Childrens Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
-    # end
+    begin
+      fifth = self.scrape_the_5th('https://www.5thavenue.org/boxoffice#current')
+      CurtainCallSeattle::Show.create_shows_array(fifth)
+    rescue
+      puts "5th Ave is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
+    end
 
     begin
-      # paramount = self.scrape_paramount('https://seattle.broadway.com/shows/tickets/')
-      paramount = self.scrape_paramount('https://www.broadway.org/theatres/details/paramount-theatre,433')
+      sct = self.scrape_childrens('http://www.sct.org/onstage/')
+      CurtainCallSeattle::Show.create_shows_array(sct)
+
+    rescue
+      puts "Childrens Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
+    end
+
+    begin
+      paramount = self.scrape_paramount('https://seattle.broadway.com/')
       CurtainCallSeattle::Show.create_shows_array(paramount)
     rescue
       puts "Paramount Theater is broken. Please open issue at https://github.com/Rygel-XVI/curtain-call-seattle-cli-gem/issues"
@@ -127,27 +126,29 @@ class CurtainCallSeattle::Scraper
     def self.scrape_paramount(url)
       begin
         doc = Nokogiri::HTML(open(url))
-        a = doc.css("div.tour-date-info")
-        # binding.pry
+        a = doc.css(".engagement-card__title")
         paramount = CurtainCallSeattle::Theater.new
         paramount.location = "911 Pine St, Seattle, WA 98101"
         paramount.name = "The Paramount Theater"
 
-        a.map{|i|
-         { name: i.children[1].children.text,
-          # description url == i.children[1].values[0]
-          dates: create_dates_paramount(i.children[3].text),
-          theater: paramount }
-        }
-
-        # a.map {|i| {:name => i.css("img").attr("alt").text,
-        #     :dates => create_dates_paramount(i),
-        #     :theater => paramount,
-        #     :description => get_description_paramount("https://seattle.broadway.com" + i.css("a")[1]['href'])}
-        # }
+        a.map do |i|
+          show_url = i.children[0].values[0]
+          scrape_paramount_show(show_url, paramount)
+        end
       rescue
         puts "scrape_paramount broken"
       end
+    end
+
+    def self.scrape_paramount_show(url, paramount)
+      doc = Nokogiri::HTML(open(url))
+      # binding.pry
+      {
+      name: doc.css(".engagement-card__content .engagement-card__title").text,
+      dates: create_dates_paramount(doc.css(".engagement-card__content .engagement-card__performance-dates").text),
+      description: doc.css(".accordion__panel p").text,
+      theater: paramount
+    }
     end
 
     # takes in an opened url to traverse to the dates. converts the date into a Date object
@@ -155,35 +156,17 @@ class CurtainCallSeattle::Scraper
       begin
         dates = i.scan(/[a-zA-Z]{3,}\s[0-9]+/)
         y = dates.map {|x| Date.parse(x)}
-
-        # b = i.css("p.dates")
-        # b.at_css("span").remove if b.at_css("span")
-        # b = b.text
-        # c = b.split(/\s|,\s|–/)  ##this is a special '–' it is not a hyphen do not delete this
-        #
-        # if c.size == 4  ##format is JAN 2–14, 2018
-        #     dates = [c[0] + " " + c[1] + ", " + c[-1], c[0] + " " + c[2] + ", " + c[-1]]
-        # elsif c.size == 5 ##format is FEB 6–MAR 18, 2018
-        #     dates = [c[0] + " " + c[1] + ", " + c[-1], c[2] + " " + c[3] + ", " + c[-1]]
-        # elsif c.size == 6  ##format is DEC 13, 2018–JAN 6, 2019
-        #     dates = [c[0] + " " + c[1] + ", " + c[2], c[3] + " " + c[4] + ", " + c[5]]
-        # else ##what is a better way? redirecting to the website?
-        #     dates = ["jan 1, #{Date.today.year}", "dec 31, #{Date.today.year}"]
-        # end
-        #
-        # y = dates.map {|x| Date.parse(x)}
         (y[0]...y[1])
       rescue
         puts "dates_paramount not working"
       end
     end
 
-    def self.get_description_paramount(url)
-      begin
-        doc = Nokogiri::HTML(open(url))
-        doc.css("div.mod-story p").text
-      rescue
-        puts "description_paramount not working"
-      end
-    end
+    # def self.get_description_paramount(doc)
+    #   begin
+    #     doc.css(".accordion__panel p").text
+    #   rescue
+    #     puts "description_paramount not working"
+    #   end
+    # end
 end
