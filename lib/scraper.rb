@@ -68,6 +68,7 @@ class CurtainCallSeattle::Scraper
 ## add other info from website in the future (ie shows with interpreters, age recommendations)
     def self.scrape_childrens(url)
       begin
+        binding.pry
         doc = Nokogiri::HTML(open(url))
         a = doc.css("ul#menu-main-navigation li a")[0]["href"]
         shows_sct('http://www.sct.org/' + a)
@@ -78,6 +79,7 @@ class CurtainCallSeattle::Scraper
 
     def self.shows_sct(url)
       begin
+        binding.pry
         doc = Nokogiri::HTML(open(url))
         a = doc.css("div.season-production-listing div.row-production-listing")
 
@@ -86,6 +88,7 @@ class CurtainCallSeattle::Scraper
         sct.name = "Seattle Children's Theater"
 
         a.map{|i|
+          binding.pry
           {
           name: i.css("div.col-text a")[0].text,
           dates: create_dates_childrens(i),
@@ -142,7 +145,7 @@ class CurtainCallSeattle::Scraper
 
     def self.scrape_paramount_show(url, paramount)
       doc = Nokogiri::HTML(open(url))
-      # binding.pry
+
       {
       name: doc.css(".engagement-card__content .engagement-card__title").text,
       dates: create_dates_paramount(doc.css(".engagement-card__content .engagement-card__performance-dates").text),
@@ -154,11 +157,25 @@ class CurtainCallSeattle::Scraper
     # takes in an opened url to traverse to the dates. converts the date into a Date object
     def self.create_dates_paramount(i)
       begin
-        dates = i.scan(/[a-zA-Z]{3,}\s[0-9]+/)
-        y = dates.map {|x| Date.parse(x)}
-        (y[0]...y[1])
+
+        dates = i.scan(/\w+/)
+
+        if (dates.length === 4)
+          d1 = Date.parse(dates[0] + " " + dates[1] + " " + dates[3])
+          d2 = Date.parse(dates[0] + " " + dates[2] + " " + dates[3])
+        elsif (dates.length === 5)
+          d1 = Date.parse(dates[0] + " " + dates[1] + " " + dates[4])
+          d2 = Date.parse(dates[2] + " " + dates[3] + " " + dates[4])
+        elsif (dates.length === 6)
+          d1 = Date.parse(dates[0] + " " + dates[1] + " " + dates[2])
+          d2 = Date.parse(dates[3] + " " + dates[4] + " " + dates[5])
+        end
+
+        return (d1...d2)
+
       rescue
         puts "dates_paramount not working"
+
       end
     end
 
